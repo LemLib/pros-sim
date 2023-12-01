@@ -1,6 +1,5 @@
-#include "init.h"
+#include "v5_api.h"
 
 int main() {
-    hello();
     return 0;
 }
