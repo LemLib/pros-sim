@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "bugprone-reserved-identifier"
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*    Copyright (c) Innovation First 2016, All rights reserved.               */
@@ -10,6 +12,8 @@
 /*                                                                            */
 /*----------------------------------------------------------------------------*/
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 #ifndef V5_APITYPES_H_
 #define V5_APITYPES_H_
 
@@ -611,3 +615,6 @@ typedef struct __attribute__ ((__packed__)) _v5_image {
 }
 #endif
 #endif /* V5_APITYPES_H_*/
+
+#pragma clang diagnostic pop
+#pragma clang diagnostic pop
