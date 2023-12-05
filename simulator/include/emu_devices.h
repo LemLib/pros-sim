@@ -7,16 +7,29 @@ typedef struct {
 } emu_adi;
 
 struct _V5_Device {
+    int8_t exists;
     V5_DeviceType type;
+    int32_t timestamp;
     union {
         struct {
             V5MotorBrakeMode brakeMode;
             V5MotorControlMode controlMode;
             V5MotorEncoderUnits encoderUnits;
             V5MotorGearset gearset;
-            V5_DeviceMotorPid pos_pid, vel_pid;
-            int64_t position, velocity;
-            int32_t velocity_target;
+            V5_DeviceMotorPid *pos_pid, *vel_pid;
+            int32_t position[2], position_target, velocity_target, current, current_max, voltage, voltage_max;
+            double velocity, power, torque, efficiency, temperature;
+            uint32_t faults;
+            union {
+                uint8_t flags;
+                struct {
+                    bool overTempFlag: 1;
+                    bool currentLimitFlag: 1;
+                    bool zeroVelocityFlag: 1;
+                    bool zeroPositionFlag: 1;
+                    bool reverseFlag: 1;
+                };
+            };
         } motor;
         struct {
             V5ImuOrientationMode orientationMode;
@@ -41,6 +54,7 @@ struct _V5_Device {
     };
 };
 
-
 extern struct _V5_Device emu_smart_ports[];
 extern emu_adi emu_adi_ports[];
+
+bool installDevice(V5_DeviceType type, uint8_t index);
