@@ -1,4 +1,4 @@
-# Code of Conduct - LemLink
+# Code of Conduct - PROS Sim
 
 ## Our Pledge
 
