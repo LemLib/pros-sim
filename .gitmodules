@@ -1,3 +1,3 @@
-[submodule "external/v5-device-sim"]
-	path = external/v5-device-sim
-	url = https://github.com/LemLib/v5-device-sim.git
+[submodule "external/v5-sim-engine"]
+	path = external/v5-sim-engine
+	url = https://github.com/LemLib/v5-sim-engine.git
