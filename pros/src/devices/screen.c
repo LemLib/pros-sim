@@ -440,8 +440,6 @@ uint32_t screen_touch_callback(touch_event_cb_fn_t cb, last_touch_e_t event_type
 	}
 }
 
-static task_stack_t touch_handle_task_stack[TASK_STACK_DEPTH_DEFAULT];
-static task_t touch_handle_task_buffer;
 static task_t touch_handle_task;
 
 // volatile because some linters think this is going to be optimized out
@@ -499,6 +497,6 @@ void graphical_context_daemon_initialize(void) {
 	_screen_mutex = mutex_create();
 	_set_up_touch_callback_storage();
 	touch_handle_task =
-	    task_create_static(_touch_handle_task, NULL, TASK_PRIORITY_MIN + 2, TASK_STACK_DEPTH_DEFAULT,
-	                       "PROS Graphics Touch Handler", touch_handle_task_stack, &touch_handle_task_buffer);
+	    task_create(_touch_handle_task, NULL, TASK_PRIORITY_MIN + 2, TASK_STACK_DEPTH_DEFAULT,
+	                       "PROS Graphics Touch Handler");
 }

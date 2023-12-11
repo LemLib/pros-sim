@@ -79,7 +79,7 @@ int port_mutex_take(uint8_t port) {
 		errno = ENXIO;
 		return PROS_ERR;
 	}
-	return xTaskGetSchedulerState() != taskSCHEDULER_RUNNING || mutex_take(port_mutexes[port], TIMEOUT_MAX);
+	return mutex_take(port_mutexes[port], TIMEOUT_MAX);
 }
 
 int internal_port_mutex_take(uint8_t port) {
@@ -101,7 +101,7 @@ int port_mutex_give(uint8_t port) {
 		errno = ENXIO;
 		return PROS_ERR;
 	}
-	return xTaskGetSchedulerState() != taskSCHEDULER_RUNNING || mutex_give(port_mutexes[port]);
+	return mutex_give(port_mutexes[port]);
 }
 
 int internal_port_mutex_give(uint8_t port) {

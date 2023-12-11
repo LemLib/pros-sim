@@ -375,12 +375,10 @@ ext_adi_gyro_t ext_adi_gyro_init(uint8_t smart_port, uint8_t adi_port, double mu
 	}
 
 	vexDeviceAdiPortConfigSet(device->device_info, adi_port, E_ADI_LEGACY_GYRO);
-	if (xTaskGetSchedulerState() == taskSCHEDULER_RUNNING) {
 		// If the scheduler is currently running (meaning that this is not called
 		// from a global constructor, for example) then delay for the duration of
 		// the calibration time in VexOS.
 		delay(GYRO_CALIBRATION_TIME);
-	}
 	return_port(smart_port - 1, merge_adi_ports(smart_port, adi_port + 1));
 }
 
