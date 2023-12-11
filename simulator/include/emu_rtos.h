@@ -16,7 +16,6 @@ typedef struct {
 typedef struct {
     uint32_t magic;
     task_fn_args args;
-    pthread_t pthread;
     pthread_attr_t pthread_attr;
     uint32_t prio;
     uint16_t stack_depth;
@@ -24,6 +23,10 @@ typedef struct {
     const char* name;
     bool suspended;
     bool deleted;
+    pthread_mutexattr_t mutexAttr;
+    pthread_mutex_t suspendMutex;
+    pthread_condattr_t condAttr;
+    pthread_cond_t resumeCond;
 } task_t_internal;
 
 void task_register(task_t_internal *task);

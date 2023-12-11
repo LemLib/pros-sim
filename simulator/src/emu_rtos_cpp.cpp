@@ -18,10 +18,10 @@ void task_deregister(task_t_internal* task) { get_tasks().erase(task->name); }
 
 uint32_t task_get_count() { return get_tasks().size(); }
 
-pros::task_t task_get_current() {
+extern "C" pros::task_t task_get_current() {
     const pthread_t current = pthread_self();
     for (const auto map = get_tasks(); const auto [_, snd] : map) {
-        if (pthread_equal(snd->pthread, current)) { return snd; }
+        if (pthread_equal(snd->thread, current)) { return snd; }
     }
     return nullptr;
 }
