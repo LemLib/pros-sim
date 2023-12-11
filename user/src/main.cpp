@@ -9,7 +9,7 @@ void test_task_fn(void* _) {
         std::cout << a.first << std::endl;
     }
     while (true) {
-        pros::c::task_delay_until(&time, 100);
+        pros::c::task_delay_until(&time, 10);
         printf("Other: %d %d\n", time, pros::millis());
         fflush(stdout);
     }
@@ -17,9 +17,9 @@ void test_task_fn(void* _) {
 
 void initialize() {
     pros::c::task_create(test_task_fn, nullptr, 0, 0, "Test");
-    uint32_t time1 = 50;
+    uint32_t time1 = 5;
     while (true) {
-        pros::c::task_delay_until(&time1, 100);
+        pros::c::task_delay_until(&time1, 10);
         printf("Main: %d %d\n", time1, pros::millis());
         fflush(stdout);
     }

@@ -74,10 +74,10 @@ void task_delay(const uint32_t milliseconds) { usleep(milliseconds * 1000); }
 void delay(const uint32_t milliseconds) { usleep(milliseconds * 1000); }
 
 void task_delay_until(uint32_t* const prev_time, const uint32_t delta) {
-    const int32_t delay = *prev_time + delta - millis();
+    int32_t delay = *prev_time + delta - millis();
     if (delay < 1) return;
     task_delay(delay);
-    *prev_time += delay;
+    *prev_time = millis();
 }
 
 uint32_t task_get_priority(task_t task) {
