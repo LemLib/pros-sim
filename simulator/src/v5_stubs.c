@@ -500,9 +500,6 @@ uint32_t vexStdlibVersionLinked(void) {}
 
 bool vexStdlibVersionVerify(void) {}
 
-// comp status
-uint32_t vexCompetitionStatus(void) {}
-
 void vexCompetitionControl(uint32_t data) {}
 
 // battery
