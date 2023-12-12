@@ -24,22 +24,20 @@ extern void graphical_context_daemon_initialize();
 extern __attribute__((weak)) void display_initialize() {}
 extern void vdml_initialize();
 extern void invoke_install_hot_table();
-extern bool sim_SDL_setup();
 // XXX: pros_init happens inside __libc_init_array, and before any global
 // C++ constructors are invoked. This is accomplished by instructing
 // GCC to include this function in the __init_array. The 101 argument
 // gives the compiler instructions on the priority of the constructor,
 // from 0-~65k. The first 0-100 priorities are reserved for language
 // implementation.
-__attribute__((constructor(101))) static void pros_init() {
-	rtos_initialize();
+void pros_init() {
+    rtos_initialize();
 
 	// vfs_initialize();
 	//
 	// vdml_initialize();
 
 	graphical_context_daemon_initialize();
-    sim_SDL_setup();
 	display_initialize();
 	system_daemon_initialize();
 }

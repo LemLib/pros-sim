@@ -15,6 +15,7 @@
 #include "v5_api.h"
 
 extern void vdml_background_processing();
+extern void display_background_processing();
 
 extern void port_mutex_take_all();
 extern void port_mutex_give_all();
@@ -38,17 +39,20 @@ task_fn_t task_fns[4] = {opcontrol, autonomous, disabled, competition_initialize
 extern void ser_output_flush();
 
 // does the basic background operations that need to occur every 2ms
-static inline void do_background_operations() {
+static void do_background_operations() {
 	port_mutex_take_all();
 	vexBackgroundProcessing();
 	vdml_background_processing();
+	display_background_processing();
 	port_mutex_give_all();
 }
+
+extern bool sim_SDL_setup();
 
 static void _system_daemon_task(void* ign) {
 	uint32_t time = millis();
 	// Initialize status to an invalid state to force an update the first loop
-	uint32_t status = (uint32_t)(1 << 8);
+	uint32_t status = 1 << 8;
 	uint32_t task_state;
 
 	// XXX: Delay likely necessary for shared memory to get copied over
@@ -58,7 +62,7 @@ static void _system_daemon_task(void* ign) {
 	port_mutex_take_all();
 	task_delay(2);
 	port_mutex_give_all();
-
+	sim_SDL_setup(); //todo find out if this is the best spot to put this
 	// start up user initialize task. once the user initialize function completes,
 	// the _initialize_task will notify us and we can go into normal competition
 	// monitoring mode

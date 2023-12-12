@@ -97,8 +97,8 @@ add_library(v5_sim_pros STATIC simulator/src/v5_stubs.c
         simulator/src/emu_rtos.c
         simulator/src/emu_rtos_cpp.cpp
         simulator/include/emu_rtos.h
-        user/include/main.h
-        simulator/src/emu_display.c)
+        simulator/src/emu_display.c
+        pros/include/system/startup.h)
 
 target_include_directories(v5_sim_pros PUBLIC simulator/include)
 target_include_directories(v5_sim_pros PUBLIC pros/include)
@@ -113,4 +113,4 @@ target_include_directories(v5_sim_user PUBLIC user/pros/include)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 add_link_options(v5_sim_user -fPIC)
-target_link_libraries(v5_sim_user PRIVATE v5_sim_pros SDL2 SDL2_gfx SDL2_FontCache)
+target_link_libraries(v5_sim_user PUBLIC v5_sim_pros SDL2 SDL2_gfx SDL2_FontCache)

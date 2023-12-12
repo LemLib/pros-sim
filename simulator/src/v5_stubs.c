@@ -8,7 +8,9 @@
 #pragma ide diagnostic ignored "UnusedParameter"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
-void vexBackgroundProcessing() {}
+void vexBackgroundProcessing() {
+
+}
 
 // Console output
 int32_t vexDebug(char const *fmt, ...) { return 0; }
@@ -56,6 +58,7 @@ void vexSystemDigitalIO(uint32_t pin, uint32_t value) {}
 uint32_t vexSystemStartupOptions() {}
 
 __attribute((noreturn)) void vexSystemExitRequest() {
+
     puts("Shutting down!\n");
     exit(0);
 }

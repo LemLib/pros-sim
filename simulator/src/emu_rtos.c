@@ -76,6 +76,7 @@ task_t task_create(task_fn_t function, void* const parameters, uint32_t prio, co
     task->suspended = false;
     task->deleted = false;
     task->magic = TASK_MAGIC;
+    pthread_attr_init(&task->pthread_attr);
     if (pthread_create(&task->thread, &task->pthread_attr, task_fn_wrapper, &task->args)) {
         free(task);
         errno = ENOMEM;
@@ -171,7 +172,7 @@ bool task_notify_clear(task_t task) {
 mutex_t mutex_create() {
 }
 
-bool mutex_take(mutex_t mutex, uint32_t timeout) {
+bool mutex_take(mutex_t mutex, uint32_t timeout) { return true;
 }
 
 bool mutex_give(mutex_t mutex) {
