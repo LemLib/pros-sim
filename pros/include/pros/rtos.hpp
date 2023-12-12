@@ -731,7 +731,9 @@ class Task {
      *   }
      * \endcode
 	 */
-	static void delay(const std::uint32_t milliseconds);
+	static void delay(const std::uint32_t milliseconds) {
+	    c::delay(milliseconds);
+	}
 
 	/**
 	 * Delays the current Task until a specified time.  This function can be used by
@@ -756,7 +758,9 @@ class Task {
 	 * }
      * \endcode
 	 */
-	static void delay_until(std::uint32_t* const prev_time, const std::uint32_t delta);
+	static void delay_until(std::uint32_t* const prev_time, const std::uint32_t delta) {
+	    c::task_delay_until(prev_time, delta);
+	}
 
 	/**
 	 * Gets the number of tasks the kernel is currently managing, including all

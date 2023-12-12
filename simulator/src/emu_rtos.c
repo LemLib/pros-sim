@@ -175,7 +175,7 @@ mutex_t mutex_create() {
 bool mutex_take(mutex_t mutex, uint32_t timeout) { return true;
 }
 
-bool mutex_give(mutex_t mutex) {
+bool mutex_give(mutex_t mutex) { return true;
 }
 
 void mutex_delete(mutex_t mutex) {

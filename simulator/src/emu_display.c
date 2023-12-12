@@ -2,7 +2,6 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL2_gfxPrimitives.h"
 
-
 #define SCREEN_WIDTH 480
 #define SCREEN_HEIGHT 320
 
@@ -33,6 +32,11 @@ struct {
         };
     };
 } display;
+
+struct {
+    V5_TouchEvent last;
+    uint16_t x, y;
+} touch;
 
 bool sim_SDL_setup() {
     display.init = false;
@@ -69,11 +73,36 @@ bool sim_SDL_setup() {
 }
 
 void display_background_processing() {
+    static int a = 0;
+    if (a % 5) return;
+    bool buttonDown = false;
     SDL_Event e;
-    if (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) {
-            printf("Window closed!\n");
-            vexSystemExitRequest();
+    while (SDL_PollEvent(&e)) {
+        switch (e.type) {
+            case SDL_QUIT:
+                printf("Window closed!\n");
+                vexSystemExitRequest();
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                touch.x = e.button.x;
+                touch.y = e.button.y;
+                buttonDown = true;
+                touch.last = kTouchEventPress;
+                break;
+            case SDL_MOUSEMOTION:
+                if ((touch.last == kTouchEventPress || touch.last == kTouchEventPressAuto) && !buttonDown) {
+                    touch.x = e.button.x;
+                    touch.y = e.button.y;
+                    touch.last = kTouchEventPressAuto;
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                touch.x = e.button.x;
+                touch.y = e.button.y;
+                touch.last = kTouchEventRelease;
+                break;
+            default:
+                break;
         }
     }
     SDL_RenderPresent(display.renderer);
@@ -220,4 +249,13 @@ uint32_t vexImageBmpRead(const uint8_t* ibuf, v5_image* oBuf, uint32_t maxw, uin
 }
 
 uint32_t vexImagePngRead(const uint8_t* ibuf, v5_image* oBuf, uint32_t maxw, uint32_t maxh, uint32_t ibuflen) {
+}
+
+void vexTouchUserCallbackSet(void (*callback)(V5_TouchEvent, int32_t, int32_t)) {
+}
+
+bool vexTouchDataGet(V5_TouchStatus* status) {
+    status->lastEvent = touch.last;
+    status->lastXpos = touch.x;
+    status->lastYpos = touch.y;
 }

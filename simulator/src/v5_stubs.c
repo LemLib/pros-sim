@@ -396,9 +396,6 @@ void vexSystemDataAbortInterrupt() {}
 void vexSystemPrefetchAbortInterrupt() {}
 
 // touch
-void vexTouchUserCallbackSet(void (*callback)(V5_TouchEvent, int32_t, int32_t)) {}
-
-bool vexTouchDataGet(V5_TouchStatus *status) {}
 
 // system utility
 uint32_t vexSystemVersion() {}

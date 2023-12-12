@@ -23,13 +23,7 @@ extern void system_daemon_initialize();
 extern void graphical_context_daemon_initialize();
 extern __attribute__((weak)) void display_initialize() {}
 extern void vdml_initialize();
-extern void invoke_install_hot_table();
-// XXX: pros_init happens inside __libc_init_array, and before any global
-// C++ constructors are invoked. This is accomplished by instructing
-// GCC to include this function in the __init_array. The 101 argument
-// gives the compiler instructions on the priority of the constructor,
-// from 0-~65k. The first 0-100 priorities are reserved for language
-// implementation.
+
 void pros_init() {
     rtos_initialize();
 
