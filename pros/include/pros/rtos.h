@@ -221,7 +221,7 @@ namespace c {
  * }
  * \endcode
  */
-uint32_t millis(void);
+uint32_t millis();
 
 /**
  * Gets the number of microseconds since PROS initialized,
@@ -239,7 +239,7 @@ uint32_t millis(void);
  * }
  * \endcode
  */
-uint64_t micros(void);
+uint64_t micros();
 
 /**
  * Creates a new task and add it to the list of tasks that are ready to run.
@@ -556,7 +556,7 @@ void task_resume(task_t task);
  * }
  * \endcode
  */
-uint32_t task_get_count(void);
+uint32_t task_get_count();
 
 /**
  * Gets the name of the specified task.
@@ -901,7 +901,7 @@ bool task_notify_clear(task_t task);
  * }
  * \endcode
  */
-mutex_t mutex_create(void);
+mutex_t mutex_create();
 
 /**
  * Takes and locks a mutex, waiting for up to a certain number of milliseconds

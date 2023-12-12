@@ -74,11 +74,11 @@ void vexDisplayForegroundColor(uint32_t col) { display.foreground_color = col; }
 
 void vexDisplayBackgroundColor(uint32_t col) { display.background_color = col; }
 
-uint32_t vexDisplayForegroundColorGet(void) { return display.foreground_color; }
+uint32_t vexDisplayForegroundColorGet() { return display.foreground_color; }
 
-uint32_t vexDisplayBackgroundColorGet(void) { return display.background_color; }
+uint32_t vexDisplayBackgroundColorGet() { return display.background_color; }
 
-void vexDisplayErase(void) {
+void vexDisplayErase() {
     SDL_SetRenderDrawColor(display.renderer, display.bg_r, display.bg_g, display.bg_b, display.bg_a);
     SDL_RenderClear(display.renderer);
     SDL_SetRenderDrawBlendMode(display.renderer, SDL_BLENDMODE_NONE); // todo: check if this is right
@@ -178,7 +178,7 @@ int32_t vexDisplayStringHeightGet(const char* pString) {}
 
 bool vexDisplayRender(bool bVsyncWait, bool bRunScheduler) {}
 
-void vexDisplayDoubleBufferDisable(void) {}
+void vexDisplayDoubleBufferDisable() {}
 
 void vexDisplayClipRegionSet(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {}
 

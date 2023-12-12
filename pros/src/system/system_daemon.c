@@ -35,7 +35,7 @@ char task_names[4][32] = {"User Operator Control (PROS)", "User Autonomous (PROS
                           "User Comp. Init. (PROS)"};
 task_fn_t task_fns[4] = {opcontrol, autonomous, disabled, competition_initialize};
 
-extern void ser_output_flush(void);
+extern void ser_output_flush();
 
 // does the basic background operations that need to occur every 2ms
 static inline void do_background_operations() {

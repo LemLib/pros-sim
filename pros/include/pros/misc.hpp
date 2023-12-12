@@ -67,7 +67,7 @@ class Controller {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t is_connected(void);
+	std::int32_t is_connected();
 
 	/**
 	 * Gets the value of an analog channel (joystick) on a controller.
@@ -116,7 +116,7 @@ class Controller {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t get_battery_capacity(void);
+	std::int32_t get_battery_capacity();
 
 	/**
 	 * Gets the battery level of the controller.
@@ -136,7 +136,7 @@ class Controller {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t get_battery_level(void);
+	std::int32_t get_battery_level();
 
 	/**
 	 * Checks if a digital channel (button) on the controller is currently
@@ -397,7 +397,7 @@ class Controller {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t clear(void);
+	std::int32_t clear();
 
 	private:
 	controller_id_e_t _id;
@@ -426,7 +426,7 @@ namespace battery {
  * }
  * \endcode
  */
-double get_capacity(void);
+double get_capacity();
 
 /**
  * Gets the current current of the battery in milliamps, as reported by VEXos.
@@ -444,7 +444,7 @@ double get_capacity(void);
  * }
  * \endcode
  */
-int32_t get_current(void);
+int32_t get_current();
 
 /**
  * Gets the current temperature of the battery, as reported by VEXos.
@@ -462,7 +462,7 @@ int32_t get_current(void);
  * }
  * \endcode
  */
-double get_temperature(void);
+double get_temperature();
 
 /**
  * Gets the current capacity of the battery in millivolts, as reported by VEXos.
@@ -480,7 +480,7 @@ double get_temperature(void);
  * }
  * \endcode
  */
-int32_t get_voltage(void);
+int32_t get_voltage();
 ///@}
 }  // namespace battery
 
@@ -505,12 +505,12 @@ namespace competition {
  *  }
  * \endcode
  */
-std::uint8_t get_status(void);
-std::uint8_t is_autonomous(void);
-std::uint8_t is_connected(void);
-std::uint8_t is_disabled(void);
-std::uint8_t is_field_control(void);
-std::uint8_t is_competition_switch(void);
+std::uint8_t get_status();
+std::uint8_t is_autonomous();
+std::uint8_t is_connected();
+std::uint8_t is_disabled();
+std::uint8_t is_field_control();
+std::uint8_t is_competition_switch();
 }  // namespace competition
 
 namespace usd {
@@ -526,7 +526,7 @@ namespace usd {
  * }
  * \endcode
  */
-std::int32_t is_installed(void);
+std::int32_t is_installed();
 /**
 Lists the files in a directory specified by the path
  * Puts the list of file names (NOT DIRECTORIES) into the buffer seperated by newlines

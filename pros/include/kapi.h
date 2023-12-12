@@ -66,7 +66,7 @@ typedef uint32_t task_stack_t;
  * w.r.t. multitasking. Functions like task_delay, queue_send, and other
  * functions MUST NOT be called while the scheduler is disabled.
  */
-void rtos_suspend_all(void);
+void rtos_suspend_all();
 
 /**
  * Resumes the scheduler. It does not resume unsuspended tasks that were
@@ -77,7 +77,7 @@ void rtos_suspend_all(void);
  * }
  * \return True if a context switch is necessary.
  */
-int32_t rtos_resume_all(void);
+int32_t rtos_resume_all();
 
 /**
  * Creates a statically allocated mutex.

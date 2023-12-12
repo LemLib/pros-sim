@@ -18,14 +18,14 @@ void rtos_initialize() {
     (void) get_start_time();
 }
 
-uint32_t millis(void) {
+uint32_t millis() {
     struct timespec tp;
 
     clock_gettime(CLOCK_MONOTONIC, &tp);
     return tp.tv_sec * 1000L + tp.tv_nsec / 1000000L - get_start_time() / 1000;
 }
 
-uint64_t micros(void) {
+uint64_t micros() {
     struct timespec tp;
 
     clock_gettime(CLOCK_MONOTONIC, &tp);
@@ -168,7 +168,7 @@ uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
 bool task_notify_clear(task_t task) {
 }
 
-mutex_t mutex_create(void) {
+mutex_t mutex_create() {
 }
 
 bool mutex_take(mutex_t mutex, uint32_t timeout) {

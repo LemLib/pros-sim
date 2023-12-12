@@ -201,7 +201,7 @@ uint32_t screen_set_eraser(uint32_t color);
  * }
  * \endcode
  */
-uint32_t screen_get_pen(void);
+uint32_t screen_get_pen();
 
 /**
  * Get the current eraser color.
@@ -228,7 +228,7 @@ uint32_t screen_get_pen(void);
  * }
  * \endcode
  */
-uint32_t screen_get_eraser(void);
+uint32_t screen_get_eraser();
 
 /**
  * Clear display with eraser color
@@ -254,7 +254,7 @@ uint32_t screen_get_eraser(void);
  * }
  * \endcode
  */
-uint32_t screen_erase(void);
+uint32_t screen_erase();
 
 /**
  * Scroll lines on the display upwards.
@@ -746,7 +746,7 @@ uint32_t screen_vprintf_at(text_format_e_t txt_fmt, const int16_t x, const int16
  * }
  * \endcode
  */
-screen_touch_status_s_t screen_touch_status(void);
+screen_touch_status_s_t screen_touch_status();
 
 /**
  * Assigns a callback function to be called when a certain touch event happens.

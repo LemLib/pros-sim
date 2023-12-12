@@ -72,14 +72,12 @@ namespace c {
  * }
  * \endcode
  */
-uint8_t competition_get_status(void);
+uint8_t competition_get_status();
 
 #ifdef __cplusplus
 }
 }
-}
 #endif
-
 /**
  * \fn competition_is_disabled()
  * 
@@ -163,6 +161,10 @@ uint8_t competition_is_field();
  * }
 */
 uint8_t competition_is_switch();
+
+#ifdef __cplusplus
+}
+#endif
 
 ///@}
 
@@ -687,7 +689,7 @@ int32_t controller_rumble(controller_id_e_t id, const char* rumble_pattern);
  * }
  * \endcode
  */
-int32_t battery_get_voltage(void);
+int32_t battery_get_voltage();
 
 /**
  * Gets the current current of the battery, as reported by VEXos.
@@ -705,7 +707,7 @@ int32_t battery_get_voltage(void);
  * }
  * \endcode
  */
-int32_t battery_get_current(void);
+int32_t battery_get_current();
 
 /**
  * Gets the current temperature of the battery, as reported by VEXos.
@@ -723,7 +725,7 @@ int32_t battery_get_current(void);
  * }
  * \endcode
  */
-double battery_get_temperature(void);
+double battery_get_temperature();
 
 /**
  * Gets the current capacity of the battery, as reported by VEXos.
@@ -741,7 +743,7 @@ double battery_get_temperature(void);
  * }
  * \endcode
  */
-double battery_get_capacity(void);
+double battery_get_capacity();
 
 /**
  * Checks if the SD card is installed.
@@ -755,7 +757,7 @@ double battery_get_capacity(void);
  * }
  * \endcode
  */
-int32_t usd_is_installed(void);
+int32_t usd_is_installed();
 
 /**
  * Lists the files in a directory specified by the path

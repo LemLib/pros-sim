@@ -493,7 +493,7 @@ void display_fatal_error(const char* text) {
 	vexDisplayCenteredString(0, s);
 }
 
-void graphical_context_daemon_initialize(void) {
+void graphical_context_daemon_initialize() {
 	_screen_mutex = mutex_create();
 	_set_up_touch_callback_storage();
 	touch_handle_task =

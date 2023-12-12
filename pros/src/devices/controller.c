@@ -180,7 +180,7 @@ int32_t controller_rumble(controller_id_e_t id, const char* rumble_pattern) {
 	return controller_set_text(id, 3, 0, rumble_pattern);
 }
 
-uint8_t competition_get_status(void) {
+uint8_t competition_get_status() {
 	return vexCompetitionStatus();
 }
 

@@ -20,8 +20,8 @@
 extern void rtos_initialize();
 extern void vfs_initialize();
 extern void system_daemon_initialize();
-extern void graphical_context_daemon_initialize(void);
-extern __attribute__((weak)) void display_initialize(void) {}
+extern void graphical_context_daemon_initialize();
+extern __attribute__((weak)) void display_initialize() {}
 extern void vdml_initialize();
 extern void invoke_install_hot_table();
 extern bool sim_SDL_setup();
@@ -31,7 +31,7 @@ extern bool sim_SDL_setup();
 // gives the compiler instructions on the priority of the constructor,
 // from 0-~65k. The first 0-100 priorities are reserved for language
 // implementation.
-__attribute__((constructor(101))) static void pros_init(void) {
+__attribute__((constructor(101))) static void pros_init() {
 	rtos_initialize();
 
 	// vfs_initialize();

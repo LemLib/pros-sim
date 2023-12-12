@@ -61,7 +61,7 @@ namespace lcd {
     }  // namespace
     #pragma GCC diagnostic pop
 
-    using lcd_btn_cb_fn_t = void (*)(void);
+    using lcd_btn_cb_fn_t = void (*)();
 
     /* 
      * These weak symbols allow the example main.cpp in to compile even when 
@@ -73,10 +73,10 @@ namespace lcd {
 
     extern __attribute__((weak)) bool set_text(std::int16_t line, std::string text);
     extern __attribute__((weak)) bool clear_line(std::int16_t line);
-    extern __attribute__((weak)) bool initialize(void);
-    extern __attribute__((weak)) std::uint8_t read_buttons(void);
+    extern __attribute__((weak)) bool initialize();
+    extern __attribute__((weak)) std::uint8_t read_buttons();
     extern __attribute__((weak)) void register_btn1_cb(lcd_btn_cb_fn_t cb);
-    extern __attribute__((weak)) bool is_initialized(void);
+    extern __attribute__((weak)) bool is_initialized();
 
     /**
      * \addtogroup cpp-llemu

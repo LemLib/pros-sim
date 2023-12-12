@@ -8,7 +8,7 @@
 #pragma ide diagnostic ignored "UnusedParameter"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
-void vexBackgroundProcessing(void) {}
+void vexBackgroundProcessing() {}
 
 // Console output
 int32_t vexDebug(char const *fmt, ...) { return 0; }
@@ -43,34 +43,34 @@ int32_t vex_vsnprintf(char *out, uint32_t max_len, const char *format, va_list a
 }
 
 // system
-uint32_t vexSystemTimeGet(void) {}
+uint32_t vexSystemTimeGet() {}
 
 void vexGettime(struct time *pTime) {}
 
 void vexGetdate(struct date *pDate) {}
 
-void vexSystemMemoryDump(void) {}
+void vexSystemMemoryDump() {}
 
 void vexSystemDigitalIO(uint32_t pin, uint32_t value) {}
 
-uint32_t vexSystemStartupOptions(void) {}
+uint32_t vexSystemStartupOptions() {}
 
-__attribute((noreturn)) void vexSystemExitRequest(void) {
+__attribute((noreturn)) void vexSystemExitRequest() {
     puts("Shutting down!\n");
     exit(0);
 }
 
-uint64_t vexSystemHighResTimeGet(void) {
+uint64_t vexSystemHighResTimeGet() {
 
 }
 
-uint64_t vexSystemPowerupTimeGet(void) {}
+uint64_t vexSystemPowerupTimeGet() {}
 
-uint32_t vexSystemLinkAddrGet(void) {}
+uint32_t vexSystemLinkAddrGet() {}
 
-uint32_t vexSystemUsbStatus(void) {}
+uint32_t vexSystemUsbStatus() {}
 
-uint32_t vexDeviceButtonStateGet(void) {}
+uint32_t vexDeviceButtonStateGet() {}
 
 // Controller
 int32_t vexControllerGet(V5_ControllerId id, V5_ControllerIndex index) {}
@@ -319,12 +319,12 @@ void vexDeviceGenericSerialFlush(V5_DeviceT device) {}
 // special use only ! Talk to James.
 int32_t vexScratchMemoryPtr(void **ptr) {}
 
-bool vexScratchMemoryLock(void) {}
+bool vexScratchMemoryLock() {}
 
-void vexScratchMemoryUnlock(void) {}
+void vexScratchMemoryUnlock() {}
 
 // SD card
-FRESULT vexFileMountSD(void) {}
+FRESULT vexFileMountSD() {}
 
 FRESULT vexFileDirectoryGet(const char *path, char *buffer, uint32_t len) {}
 
@@ -372,25 +372,25 @@ int32_t vexSystemTimerReinitForRtos(uint32_t priority, void (*handler)(void *dat
 
 void vexSystemApplicationIRQHandler(uint32_t ulICCIAR) {}
 
-int32_t vexSystemWatchdogReinitRtos(void) {}
+int32_t vexSystemWatchdogReinitRtos() {}
 
-uint32_t vexSystemWatchdogGet(void) {}
+uint32_t vexSystemWatchdogGet() {}
 
 // Hooks into the interrupt system, some of these will be used by FreeRTOS
 // the others are just placeholders for now
-void vexSystemBoot(void) {}
+void vexSystemBoot() {}
 
-void vexSystemUndefinedException(void) {}
+void vexSystemUndefinedException() {}
 
-void vexSystemFIQInterrupt(void) {}
+void vexSystemFIQInterrupt() {}
 
-void vexSystemIQRQnterrupt(void) {}
+void vexSystemIQRQnterrupt() {}
 
-void vexSystemSWInterrupt(void) {}
+void vexSystemSWInterrupt() {}
 
-void vexSystemDataAbortInterrupt(void) {}
+void vexSystemDataAbortInterrupt() {}
 
-void vexSystemPrefetchAbortInterrupt(void) {}
+void vexSystemPrefetchAbortInterrupt() {}
 
 // touch
 void vexTouchUserCallbackSet(void (*callback)(V5_TouchEvent, int32_t, int32_t)) {}
@@ -398,27 +398,27 @@ void vexTouchUserCallbackSet(void (*callback)(V5_TouchEvent, int32_t, int32_t)) 
 bool vexTouchDataGet(V5_TouchStatus *status) {}
 
 // system utility
-uint32_t vexSystemVersion(void) {}
+uint32_t vexSystemVersion() {}
 
-uint32_t vexStdlibVersion(void) {}
+uint32_t vexStdlibVersion() {}
 
 // get SDK version
-uint32_t vexSdkVersion(void) {}
+uint32_t vexSdkVersion() {}
 
 // duplication of prototypes in v5_util.h for use by user code
-uint32_t vexStdlibVersionLinked(void) {}
+uint32_t vexStdlibVersionLinked() {}
 
-bool vexStdlibVersionVerify(void) {}
+bool vexStdlibVersionVerify() {}
 
 void vexCompetitionControl(uint32_t data) {}
 
 // battery
-int32_t vexBatteryVoltageGet(void) {}
+int32_t vexBatteryVoltageGet() {}
 
-int32_t vexBatteryCurrentGet(void) {}
+int32_t vexBatteryCurrentGet() {}
 
-double vexBatteryTemperatureGet(void) {}
+double vexBatteryTemperatureGet() {}
 
-double vexBatteryCapacityGet(void) {}
+double vexBatteryCapacityGet() {}
 
 #pragma clang diagnostic pop

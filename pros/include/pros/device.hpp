@@ -89,7 +89,7 @@ class Device {
  	 * }
  	 * \endcode
 	 */
-	std::uint8_t get_port(void);
+	std::uint8_t get_port();
 
 	/**
 	 * Checks if the device is installed.

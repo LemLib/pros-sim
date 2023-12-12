@@ -19,7 +19,7 @@ bool installDevice(V5_DeviceType type, uint8_t index) {
 }
 
 // Generic device
-uint32_t vexDevicesGetNumber(void) {
+uint32_t vexDevicesGetNumber() {
     uint8_t count = 0;
     for (uint8_t i = 0; i < V5_MAX_DEVICE_PORTS; i++) {
         if (emu_smart_ports[i].exists) count++;
@@ -35,7 +35,7 @@ uint32_t vexDevicesGetNumberByType(V5_DeviceType type) {
     return count;
 }
 
-V5_DeviceT vexDevicesGet(void) {
+V5_DeviceT vexDevicesGet() {
     return emu_smart_ports;
 }
 

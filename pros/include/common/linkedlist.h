@@ -15,7 +15,7 @@
 
 #pragma once
 
-typedef void (*generic_fn_t)(void);
+typedef void (*generic_fn_t)();
 
 typedef struct ll_node_s {
 	union {

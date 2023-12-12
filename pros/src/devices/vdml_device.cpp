@@ -29,7 +29,7 @@ bool Device::is_installed() {
 	return_port(zero_indexed_port, _deviceType == plugged_device_type);
 }
 
-std::uint8_t Device::get_port(void) {
+std::uint8_t Device::get_port() {
 	return _port;
 }
 

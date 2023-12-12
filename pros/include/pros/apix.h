@@ -122,7 +122,7 @@ void task_notify_when_deleting(task_t target_task, task_t task_to_notify, uint32
  *
  * \endcode
  */
-mutex_t mutex_recursive_create(void);
+mutex_t mutex_recursive_create();
 
 /**
  * Takes a recursive mutex.
@@ -204,7 +204,7 @@ bool mutex_recursive_give(mutex_t mutex);
  * task_create(task_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
  *                           TASK_STACK_DEPTH_DEFAULT, "task_fn");
  *
- * void opcontrol(void) {
+ * void opcontrol() {
 *   while (1) {
 *     if (joystick_get_digital(1, 7, JOY_UP)) {
 *       task_t owner = mutex_get_owner(mutex);
@@ -274,7 +274,7 @@ sem_t sem_create(uint32_t max_count, uint32_t init_count);
  * task_create(task_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
  *                           TASK_STACK_DEPTH_DEFAULT, "task_fn");
  *
- * void opcontrol(void) {
+ * void opcontrol() {
  *   while (1) {
  *     if (joystick_get_digital(1, 7, JOY_UP)) {
  *       // honestly this is a bad example because you should never 
@@ -312,7 +312,7 @@ void sem_delete(sem_t sem);
  *
  * \endcode
  */
-sem_t sem_binary_create(void);
+sem_t sem_binary_create();
 
 /**
  * Waits for the semaphore's value to be greater than 0. If the value is already
@@ -349,7 +349,7 @@ sem_t sem_binary_create(void);
  * task_create(task_fn, (void*)"PROS", TASK_PRIORITY_DEFAULT,
  *                           TASK_STACK_DEPTH_DEFAULT, "task_fn");
  *
- * void opcontrol(void) {
+ * void opcontrol() {
  *   while (1) {
  *     if (sem_wait(sem, 0))) {
  *       printf("Semaphore is available");
@@ -430,7 +430,7 @@ uint32_t sem_get_count(sem_t sem);
  * 
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   int item[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *   queue_prepend(queue, item, 1000);
@@ -458,7 +458,7 @@ queue_t queue_create(uint32_t length, uint32_t item_size);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   int item[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *   queue_prepend(queue, item, 1000);
@@ -485,7 +485,7 @@ bool queue_prepend(queue_t queue, const void* item, uint32_t timeout);
  * 
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   int item[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *   queue_prepend(queue, item, 1000);
@@ -511,7 +511,7 @@ bool queue_append(queue_t queue, const void* item, uint32_t timeout);
  * 
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   char* item = "Hello! this is a test";
  *   queue_prepend(queue, item, 1000);
@@ -542,7 +542,7 @@ bool queue_peek(queue_t queue, void* const buffer, uint32_t timeout);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   char* item = "Hello! this is a test";
  *   queue_prepend(queue, item, 1000);
@@ -566,7 +566,7 @@ bool queue_recv(queue_t queue, void* const buffer, uint32_t timeout);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  * 
  *   int item[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -588,7 +588,7 @@ uint32_t queue_get_waiting(const queue_t queue);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  * 
  *   int item[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -608,7 +608,7 @@ uint32_t queue_get_available(const queue_t queue);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   queue_delete(queue);
  * }
@@ -624,7 +624,7 @@ void queue_delete(queue_t queue);
  * 
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   queue_t queue = queue_create(10, sizeof(int));
  *   int item[10] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *   queue_prepend(queue, item, 1000);
@@ -661,7 +661,7 @@ void queue_reset(queue_t queue);
  * 
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   registry_bind_port(1, E_DEVICE_MOTOR);
  * }
  * \endcode
@@ -684,7 +684,7 @@ int registry_bind_port(uint8_t port, v5_device_e_t device_type);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   registry_bind_port(1, E_DEVICE_MOTOR);
  *   registry_unbind_port(1);
  * }
@@ -707,7 +707,7 @@ int registry_unbind_port(uint8_t port);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   registry_bind_port(1, E_DEVICE_MOTOR);
  *   printf("port 1 is registered to a motor: %d", registry_get_bound_type(1) == E_DEVICE_MOTOR);
  * }
@@ -730,7 +730,7 @@ v5_device_e_t registry_get_bound_type(uint8_t port);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   registry_bind_port(1, E_DEVICE_MOTOR);
  *   printf("port 1 is registered to a motor: %d", registry_get_plugged_type(1) == E_DEVICE_MOTOR);
  * }
@@ -754,7 +754,7 @@ v5_device_e_t registry_get_plugged_type(uint8_t port);
  * 
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   serctl(SERCTL_SET_BAUDRATE, (void*) 9600);
  * }
  */
@@ -787,7 +787,7 @@ int32_t serctl(const uint32_t action, void* const extra_arg);
  *
  * \b Example:
  * \code
- * void opcontrol(void) {
+ * void opcontrol() {
  *   int32_t fd = open("serial", O_RDWR);
  *   fdctl(fd, SERCTL_SET_BAUDRATE, (void*) 9600);
  * }

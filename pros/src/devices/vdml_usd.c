@@ -14,7 +14,7 @@
 #include "kapi.h"
 #include "v5_api.h"
 
-int32_t usd_is_installed(void) {
+int32_t usd_is_installed() {
 	return vexFileDriveStatus(0);
 }
 static const int FRESULTMAP[] = {0,       EIO,    EINVAL, EBUSY, ENOENT,  ENOENT, EINVAL, EACCES,  // FR_DENIED

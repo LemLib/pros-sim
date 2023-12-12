@@ -59,8 +59,8 @@ void                  vexGettime( struct time *pTime );
 void                  vexGetdate( struct date *pDate );
 void                  vexSystemMemoryDump( void );
 void                  vexSystemDigitalIO( uint32_t pin, uint32_t value );
-uint32_t              vexSystemStartupOptions(void);
-void                  vexSystemExitRequest(void);
+uint32_t              vexSystemStartupOptions();
+void                  vexSystemExitRequest();
 uint64_t              vexSystemHighResTimeGet( void );
 uint64_t              vexSystemPowerupTimeGet( void );
 uint32_t              vexSystemLinkAddrGet( void );
@@ -277,7 +277,7 @@ void                  vexDisplayForegroundColor( uint32_t col );
 void                  vexDisplayBackgroundColor( uint32_t col );
 uint32_t              vexDisplayForegroundColorGet( void );
 uint32_t              vexDisplayBackgroundColorGet( void );
-void                  vexDisplayErase(void);
+void                  vexDisplayErase();
 void                  vexDisplayScroll( int32_t nStartLine, int32_t nLines );
 void                  vexDisplayScrollRect( int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t nLines );
 void                  vexDisplayCopyRect( int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t *pSrc, int32_t srcStride );
@@ -317,7 +317,7 @@ int32_t               vexDisplayStringWidthGet( const char *pString );
 int32_t               vexDisplayStringHeightGet( const char *pString );
 
 bool                  vexDisplayRender( bool bVsyncWait, bool bRunScheduler );
-void                  vexDisplayDoubleBufferDisable(void);
+void                  vexDisplayDoubleBufferDisable();
 
 void                  vexDisplayClipRegionSet( int32_t x1, int32_t y1, int32_t x2, int32_t y2 );
 void                  vexDisplayClipRegionClear();
