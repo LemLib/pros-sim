@@ -4,8 +4,8 @@ set(CMAKE_CXX_STANDARD 23)
 project(v5_sim_pros)
 add_library(v5_sim_pros STATIC simulator/src/v5_stubs.c
         simulator/src/emu_core.c
-        simulator/src/emu_devices.c
-        simulator/src/emu_motors.c
+        simulator/src/devices/emu_devices.c
+        simulator/src/devices/emu_motors.c
         pros/src/devices/battery.c
         pros/src/devices/battery.cpp
         pros/src/devices/controller.c
@@ -98,7 +98,8 @@ add_library(v5_sim_pros STATIC simulator/src/v5_stubs.c
         simulator/src/emu_rtos_cpp.cpp
         simulator/include/emu_rtos.h
         user/include/main.h
-        pros/include/system/startup.h)
+        pros/include/system/startup.h
+        simulator/src/emu_display.c)
 
 target_include_directories(v5_sim_pros PUBLIC simulator/include)
 target_include_directories(v5_sim_pros PUBLIC pros/include)
@@ -109,7 +110,11 @@ add_library(v5_sim_user SHARED user/src/main.cpp
         user/include/api.h user/include/main.h)
 target_link_libraries(v5_sim_user v5_sim_pros)
 target_include_directories(v5_sim_user PUBLIC user/include)
+target_include_directories(v5_sim_user PUBLIC user/pros/include)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 add_link_options(v5_sim_user -fPIC)
+target_link_libraries(v5_sim_user SDL2)
+target_link_libraries(v5_sim_user SDL2_gfx)
+target_link_libraries(v5_sim_user SDL2_FontCache)

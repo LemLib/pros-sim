@@ -24,7 +24,7 @@ extern void graphical_context_daemon_initialize(void);
 extern __attribute__((weak)) void display_initialize(void) {}
 extern void vdml_initialize();
 extern void invoke_install_hot_table();
-
+extern bool sim_SDL_setup();
 // XXX: pros_init happens inside __libc_init_array, and before any global
 // C++ constructors are invoked. This is accomplished by instructing
 // GCC to include this function in the __init_array. The 101 argument
@@ -39,16 +39,7 @@ __attribute__((constructor(101))) static void pros_init(void) {
 	// vdml_initialize();
 
 	graphical_context_daemon_initialize();
-
+    sim_SDL_setup();
 	display_initialize();
-
-	// NOTE: this function should be called after all other initialize
-	// functions. for an example of what could happen if this is not
-	// the case, see
-	// https://github.com/purduesigbots/pros/pull/144/#issuecomment-496901942
 	system_daemon_initialize();
-}
-
-void* pros_main(void* _) {
-    for(;;);
 }
