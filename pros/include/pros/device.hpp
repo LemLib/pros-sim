@@ -112,29 +112,29 @@ class Device {
 	virtual bool is_installed();
 
   	/**
-	 * Gets the type of device.
-	 * 
-	 * This function uses the following values of errno when an error state is
-	 * reached:
-	 * EACCES - Mutex of port cannot be taken (access denied).
-	 * 
-	 * \return The device type as an enum.
-	 *
-	 * \b Example
- 	 * \code
-	 * #define DEVICE_PORT 1
-	 *
-	 * void opcontrol() {
-		Device device(DEVICE_PORT);
-	 *   while (true) { 
-	 *     DeviceType dt = device.get_plugged_type();
-	 *     printf("device plugged type: {plugged type: %d}\n", dt);
-	 *     delay(20);
-	 *   }
-	 * }
- 	 * \endcode
-	 */
-	pros::DeviceType get_plugged_type() const;
+     * Gets the type of device.
+     *
+     * This function uses the following values of errno when an error state is
+     * reached:
+     * EACCES - Mutex of port cannot be taken (access denied).
+     *
+     * \return The device type as an enum.
+     *
+     * \b Example
+     * \code
+     * #define DEVICE_PORT 1
+     *
+     * void opcontrol() {
+        Device device(DEVICE_PORT);
+     *   while (true) {
+     *     DeviceType dt = device.get_plugged_type();
+     *     printf("device plugged type: {plugged type: %d}\n", dt);
+     *     delay(20);
+     *   }
+     * }
+     * \endcode
+     */
+    DeviceType get_plugged_type() const;
 
 
 	protected:
@@ -151,7 +151,7 @@ class Device {
 
 	protected:
 	const std::uint8_t _port;
-	const enum DeviceType _deviceType = pros::DeviceType::none;
+	const enum DeviceType _deviceType = DeviceType::none;
 	
 	///@}
 };

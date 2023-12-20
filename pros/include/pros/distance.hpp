@@ -176,14 +176,14 @@ class Distance : public Device {
      * Distance [port: (port number), distance: (distance), confidence: (confidence),
      * object size: (object size), object velocity: (object velocity)]
      */
-	friend std::ostream& operator<<(std::ostream& os, pros::Distance& distance);
+	friend std::ostream& operator<<(std::ostream& os, Distance& distance);
   
 	private:
 	///@}
 };
 
 namespace literals {
-const pros::Distance operator"" _dist(const unsigned long long int d);
+const Distance operator"" _dist(const unsigned long long int d);
 }  // namespace literals
 }
 }  // namespace pros

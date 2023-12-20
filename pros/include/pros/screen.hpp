@@ -85,7 +85,7 @@ const char* convert_args(const std::string& arg) {
      *
      * \endcode
      */
-    std::uint32_t set_pen(pros::Color color);
+    std::uint32_t set_pen(Color color);
 
     /**
      * Set the pen color for subsequent graphics operations
@@ -148,7 +148,7 @@ const char* convert_args(const std::string& arg) {
      *
      * \endcode
      */
-    std::uint32_t set_eraser(pros::Color color);
+    std::uint32_t set_eraser(Color color);
 
     /**
      * Set the eraser color for erasing and the current background.
@@ -631,13 +631,13 @@ const char* convert_args(const std::string& arg) {
      * }
      */
     template <typename... Params>
-    void print(pros::text_format_e_t txt_fmt, const std::int16_t line, const char* text, Params... args){
-	    pros::c::screen_print(txt_fmt, line, text, convert_args(args)...);
+    void print(text_format_e_t txt_fmt, const std::int16_t line, const char* text, Params... args) {
+    c::screen_print(txt_fmt, line, text, convert_args(args)...);
     }
 
     template <typename... Params>
-    void print(pros::text_format_e_t txt_fmt, const std::int16_t x, const std::int16_t y, const char* text, Params... args){
-	    pros::c::screen_print_at(txt_fmt, x, y, text, convert_args(args)...);
+    void print(text_format_e_t txt_fmt, const std::int16_t x, const std::int16_t y, const char* text, Params... args) {
+    c::screen_print_at(txt_fmt, x, y, text, convert_args(args)...);
     }
     
     /******************************************************************************/

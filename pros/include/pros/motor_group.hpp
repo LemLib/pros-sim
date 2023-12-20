@@ -71,8 +71,8 @@ class MotorGroup : public virtual AbstractMotor {
  	 * }
 	 * \endcode
 	 */
-	MotorGroup(const std::initializer_list<std::int8_t>, const pros::v5::MotorGears gearset = pros::v5::MotorGears::invalid,
-	                    const pros::v5::MotorUnits encoder_units = pros::v5::MotorUnits::invalid);
+	MotorGroup(const std::initializer_list<std::int8_t>, const MotorGears gearset = MotorGears::invalid,
+	                    const MotorUnits encoder_units = MotorUnits::invalid);
 	/**
 	 * Constructs a new MotorGroup object.
 	 * 
@@ -108,8 +108,8 @@ class MotorGroup : public virtual AbstractMotor {
  	 * }
 	 * \endcode
 	 */
-	MotorGroup(const std::vector<std::int8_t>& ports, const pros::v5::MotorGears gearset = pros::v5::MotorGears::invalid,
-	                    const pros::v5::MotorUnits encoder_units = pros::v5::MotorUnits::invalid);
+	MotorGroup(const std::vector<std::int8_t>& ports, const MotorGears gearset = MotorGears::invalid,
+	                    const MotorUnits encoder_units = MotorUnits::invalid);
 
 	 /**
 	 * Constructs a new MotorGroup object from an abstract motor.
@@ -1709,7 +1709,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_brake_mode(const pros::motor_brake_mode_e_t mode, const std::uint8_t index = 0) const;
+	std::int32_t set_brake_mode(const motor_brake_mode_e_t mode, const std::uint8_t index = 0) const;
 	/**
 	 * Sets one of Motor_Brake all the motors in the motor group. Works with the C enum
 	 * and the C++ enum class.
@@ -1761,7 +1761,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_brake_mode_all(const pros::motor_brake_mode_e_t mode) const;
+	std::int32_t set_brake_mode_all(const motor_brake_mode_e_t mode) const;
 	/**
 	 * Sets the current limit for one motor in the motor group in mA.
 	 *
@@ -1882,7 +1882,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_encoder_units(const pros::motor_encoder_units_e_t units, const std::uint8_t index = 0) const;
+	std::int32_t set_encoder_units(const motor_encoder_units_e_t units, const std::uint8_t index = 0) const;
 	/**
 	 * Sets one of Motor_Units for every motor in the motor group's motor encoder. Works with the C
 	 * enum and the C++ enum class.
@@ -1932,7 +1932,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_encoder_units_all(const pros::motor_encoder_units_e_t units) const;
+	std::int32_t set_encoder_units_all(const motor_encoder_units_e_t units) const;
 	
 
 	/**
@@ -1969,7 +1969,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_gearing(std::vector<pros::motor_gearset_e_t> gearsets) const;
+	std::int32_t set_gearing(std::vector<motor_gearset_e_t> gearsets) const;
 	/**
 	 * Sets one of the gear cartridge (red, green, blue) for one motor in the motor group. Usable with
 	 * the C++ enum class and the C enum.
@@ -1998,7 +1998,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_gearing(const pros::motor_gearset_e_t gearset, const std::uint8_t index = 0) const;
+	std::int32_t set_gearing(const motor_gearset_e_t gearset, const std::uint8_t index = 0) const;
 	
 	/**
 	 * Sets the gear cartridge (red, green, blue) for each motor in the motor group by taking in a vector of the cartridges. 
@@ -2109,7 +2109,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_gearing_all(const pros::motor_gearset_e_t gearset) const;
+	std::int32_t set_gearing_all(const motor_gearset_e_t gearset) const;
 
 	/**
 	 * sets the reversal for a motor in the motor group.
@@ -2402,7 +2402,7 @@ class MotorGroup : public virtual AbstractMotor {
 	 * The ordered vector of ports used by the motor group
 	*/
 	std::vector<std::int8_t> _ports;
-	mutable pros::Mutex _MotorGroup_mutex;
+	mutable Mutex _MotorGroup_mutex;
 };
 }  // namespace v5
 }  // namespace pros

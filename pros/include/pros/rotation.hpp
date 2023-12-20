@@ -350,13 +350,13 @@ class Rotation : public Device {
 	 * }
 	 * \endcode
 	 */
-	friend std::ostream& operator<<(std::ostream& os, const pros::Rotation& rotation);
+	friend std::ostream& operator<<(std::ostream& os, const Rotation& rotation);
 
 ///@}
 };
 
 namespace literals {
-const pros::Rotation operator"" _rot(const unsigned long long int r);
+const Rotation operator"" _rot(const unsigned long long int r);
 }  // namespace literals
 }
 }  // namespace pros

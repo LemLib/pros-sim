@@ -18,67 +18,59 @@ inline namespace v5 {
 
 std::int32_t Gps::initialize_full(double xInitial, double yInitial, double headingInitial, double xOffset,
                                   double yOffset) const {
-	return pros::c::gps_initialize_full(_port, xInitial, yInitial, headingInitial, xOffset, yOffset);
+	return c::gps_initialize_full(_port, xInitial, yInitial, headingInitial, xOffset, yOffset);
 }
 
 std::int32_t Gps::set_offset(double xOffset, double yOffset) const {
-	return pros::c::gps_set_offset(_port, xOffset, yOffset);
+    return c::gps_set_offset(_port, xOffset, yOffset);
 }
 
-pros::gps_position_s_t Gps::get_offset() const {
-	return pros::c::gps_get_offset(_port);
+gps_position_s_t Gps::get_offset() const {
+	return c::gps_get_offset(_port);
 }
 
 std::int32_t Gps::set_position(double xInitial, double yInitial, double headingInitial) const {
-	return pros::c::gps_set_position(_port, xInitial, yInitial, headingInitial);
+	return c::gps_set_position(_port, xInitial, yInitial, headingInitial);
 }
 
 std::int32_t Gps::set_data_rate(std::uint32_t rate) const {
-	return pros::c::gps_set_data_rate(_port, rate);
+	return c::gps_set_data_rate(_port, rate);
 }
 
-double Gps::get_error() const {
-	return pros::c::gps_get_error(_port);
-}
+double Gps::get_error() const { return c::gps_get_error(_port); }
 
-pros::gps_status_s_t Gps::get_status() const {
-	return pros::c::gps_get_status(_port);
-}
+gps_status_s_t Gps::get_status() const { return c::gps_get_status(_port); }
 
-pros::gps_position_s_t Gps::get_position() const {
-	return pros::c::gps_get_position(_port);
+gps_position_s_t Gps::get_position() const {
+	return c::gps_get_position(_port);
 }
 
 double Gps::get_heading() const {
-	return pros::c::gps_get_heading(_port);
+	return c::gps_get_heading(_port);
 }
 
 double Gps::get_heading_raw() const {
-	return pros::c::gps_get_heading_raw(_port);
+	return c::gps_get_heading_raw(_port);
 }
 
 double Gps::get_rotation() const {
-	return pros::c::gps_get_rotation(_port);
+	return c::gps_get_rotation(_port);
 }
 
 std::int32_t Gps::set_rotation(double target) const {
-	return pros::c::gps_set_rotation(_port, target);
+	return c::gps_set_rotation(_port, target);
 }
 
-std::int32_t Gps::tare_rotation() const {
-	return pros::c::gps_tare_rotation(_port);
+std::int32_t Gps::tare_rotation() const { return c::gps_tare_rotation(_port); }
+
+gps_gyro_s_t Gps::get_gyro_rate() const { return c::gps_get_gyro_rate(_port); }
+
+gps_accel_s_t Gps::get_accel() const {
+	return c::gps_get_accel(_port);
 }
 
-pros::gps_gyro_s_t Gps::get_gyro_rate() const {
-	return pros::c::gps_get_gyro_rate(_port);
-}
-
-pros::gps_accel_s_t Gps::get_accel() const {
-	return pros::c::gps_get_accel(_port);
-}
-
-std::ostream& operator<<(std::ostream& os, const pros::Gps& gps) {
-	pros::gps_status_s_t data = gps.get_status();
+std::ostream& operator<<(std::ostream& os, const Gps& gps) {
+    gps_status_s_t data = gps.get_status();
 	os << "Gps [";
 	os << "port: " << gps._port;
 	os << ", x: " << data.x;
@@ -90,8 +82,8 @@ std::ostream& operator<<(std::ostream& os, const pros::Gps& gps) {
 }
 
 namespace literals {
-const pros::Gps operator""_gps(const unsigned long long int g) {
-	return pros::Gps(g);
+const Gps operator""_gps(const unsigned long long int g) {
+	return Gps(g);
 }
 }  // namespace literals
 } // namespace v5

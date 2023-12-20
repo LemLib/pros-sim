@@ -107,7 +107,7 @@ std::uint32_t Task::get_count() {
 Mutex::Mutex() : mutex(mutex_create(), mutex_delete) {}
 
 Clock::time_point Clock::now() {
-	return Clock::time_point{Clock::duration{millis()}};
+	return time_point {duration {millis()}};
 }
 
 bool Mutex::take() {

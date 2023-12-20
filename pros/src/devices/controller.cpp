@@ -18,13 +18,13 @@ namespace pros {
 inline namespace v5 {
 using namespace pros::c;
 
-Controller::Controller(pros::controller_id_e_t id) : _id(id) {}
+Controller::Controller(controller_id_e_t id) : _id(id) {}
 
 std::int32_t Controller::is_connected() {
 	return controller_is_connected(_id);
 }
 
-std::int32_t Controller::get_analog(pros::controller_analog_e_t channel) {
+std::int32_t Controller::get_analog(controller_analog_e_t channel) {
 	return controller_get_analog(_id, channel);
 }
 
@@ -36,11 +36,11 @@ std::int32_t Controller::get_battery_level() {
 	return controller_get_battery_level(_id);
 }
 
-std::int32_t Controller::get_digital(pros::controller_digital_e_t button) {
+std::int32_t Controller::get_digital(controller_digital_e_t button) {
 	return controller_get_digital(_id, button);
 }
 
-std::int32_t Controller::get_digital_new_press(pros::controller_digital_e_t button) {
+std::int32_t Controller::get_digital_new_press(controller_digital_e_t button) {
 	return controller_get_digital_new_press(_id, button);
 }
 

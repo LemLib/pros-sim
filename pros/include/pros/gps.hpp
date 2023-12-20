@@ -83,8 +83,8 @@ class Gps : public Device {
 	 * \endcode
 	 *
 	 */
-	explicit Gps(const std::uint8_t port, double xInitial, double yInitial, double headingInitial) : Device(port, DeviceType::gps){
-		pros::c::gps_set_position(port, xInitial, yInitial, headingInitial);
+	explicit Gps(const std::uint8_t port, double xInitial, double yInitial, double headingInitial) : Device(port, DeviceType::gps) {
+        c::gps_set_position(port, xInitial, yInitial, headingInitial);
 	};
 
 	/**
@@ -109,8 +109,8 @@ class Gps : public Device {
 	 * \endcode
 	 *
 	 */
-	explicit Gps(const std::uint8_t port, double xOffset, double yOffset) : Device(port, DeviceType::gps){
-		pros::c::gps_set_offset(port, xOffset, yOffset);
+	explicit Gps(const std::uint8_t port, double xOffset, double yOffset) : Device(port, DeviceType::gps) {
+        c::gps_set_offset(port, xOffset, yOffset);
 	};
 
 	/**
@@ -142,8 +142,8 @@ class Gps : public Device {
 	 *
 	 */
 	explicit Gps(const std::uint8_t port, double xInitial, double yInitial, double headingInitial, double xOffset, double yOffset)
-	     : Device(port, DeviceType::gps){
-		pros::c::gps_initialize_full(port, xInitial, yInitial, headingInitial, xOffset, yOffset);
+	     : Device(port, DeviceType::gps) {
+        c::gps_initialize_full(port, xInitial, yInitial, headingInitial, xOffset, yOffset);
 	};
 
 	/**
@@ -247,7 +247,7 @@ class Gps : public Device {
 	* }
 	* \endcode
 	*/
-	virtual pros::gps_position_s_t get_offset() const;
+	virtual gps_position_s_t get_offset() const;
 
 	/**
 	 * Sets the robot's location relative to the center of the field in meters.
@@ -371,7 +371,7 @@ class Gps : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::gps_status_s_t get_status() const;
+	virtual gps_status_s_t get_status() const;
 
 	/**
 	 * Gets the x and y position on the field of the GPS in meters.
@@ -402,7 +402,7 @@ class Gps : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::gps_position_s_t get_position() const;
+	virtual gps_position_s_t get_position() const;
 
 	/**
 	 * Get the heading in [0,360) degree values.
@@ -574,7 +574,7 @@ class Gps : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::gps_gyro_s_t get_gyro_rate() const;
+	virtual gps_gyro_s_t get_gyro_rate() const;
 
 	/**
 	 * Get the GPS's raw accelerometer values
@@ -590,7 +590,7 @@ class Gps : public Device {
 	 * \return The raw accelerometer values. If the operation failed, all the
 	 * structure's members are filled with PROS_ERR_F and errno is set.
 	 */
-	virtual pros::gps_accel_s_t get_accel() const;
+	virtual gps_accel_s_t get_accel() const;
 
 	/**
 	 * This is the overload for the << operator for printing to streams
@@ -611,7 +611,7 @@ class Gps : public Device {
 	 * }
 	 * \endcode
 	 */
-	friend std::ostream& operator<<(std::ostream& os, const pros::Gps& gps);
+	friend std::ostream& operator<<(std::ostream& os, const Gps& gps);
 
 ///@}
 };  // Gps Class
@@ -634,7 +634,7 @@ namespace literals {
 	 * }
 	 * \endcode
 	 */
-	const pros::Gps operator""_gps(const unsigned long long int g);
+	const Gps operator""_gps(const unsigned long long int g);
 }  // namespace literals
 
 /// @brief

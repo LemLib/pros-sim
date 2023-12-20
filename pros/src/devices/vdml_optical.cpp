@@ -68,8 +68,8 @@ std::int32_t Optical::disable_gesture(){
 }
 
 
-std::ostream& operator<<(std::ostream& os, pros::Optical& optical) {
-  pros::c::optical_rgb_s_t rgb = optical.get_rgb(); 
+std::ostream& operator<<(std::ostream& os, Optical& optical) {
+    optical_rgb_s_t rgb = optical.get_rgb(); 
   os << "Optical [";
   os << "port: " << optical.get_port();
   os << ", hue: " << optical.get_hue();
@@ -82,8 +82,8 @@ std::ostream& operator<<(std::ostream& os, pros::Optical& optical) {
 }
 
 namespace literals {
-const pros::Optical operator"" _opt(const unsigned long long int o) {
-  return pros::Optical(o);
+const Optical operator"" _opt(const unsigned long long int o) {
+  return Optical(o);
 }
 } //
 

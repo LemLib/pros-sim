@@ -422,7 +422,7 @@ class AnalogIn : protected Port {
 	 * value calibrated: (12 bit calibrated value), 
 	 * value calibrated HR: (16 bit calibrated value), value: (12 bit value)]
 	 */
-	friend std::ostream& operator<<(std::ostream& os, pros::adi::AnalogIn& analog_in);
+	friend std::ostream& operator<<(std::ostream& os, AnalogIn& analog_in);
 
 	using Port::get_port;
 };
@@ -523,7 +523,7 @@ class AnalogOut : private Port {
 	 * AnalogOut [smart_port: analog_out._smart_port, adi_port: analog_out._adi_port,
 	 * value: (value)]
 	 */
-	friend std::ostream& operator<<(std::ostream& os, pros::adi::AnalogOut& analog_out);
+	friend std::ostream& operator<<(std::ostream& os, AnalogOut& analog_out);
 };
 ///@}
 
@@ -635,7 +635,7 @@ class DigitalOut : private Port {
 	 * DigitalOut [smart_port: digital_out._smart_port, adi_port: digital_out._adi_port,
 	 * value: (value)]
 	 */  
-	friend std::ostream& operator<<(std::ostream& os, pros::adi::DigitalOut& digital_out);
+	friend std::ostream& operator<<(std::ostream& os, DigitalOut& digital_out);
 };
 ///@}
 
@@ -763,7 +763,7 @@ class DigitalIn : private Port {
 	 * DigitalIn [smart_port: digital_in._smart_port, adi_port: digital_in._adi_port,
 	 * value: (value)]
 	 */
-	friend std::ostream& operator<<(std::ostream& os, pros::adi::DigitalIn& digital_in);
+	friend std::ostream& operator<<(std::ostream& os, DigitalIn& digital_in);
 
 	using Port::get_port;
 };
@@ -1040,7 +1040,7 @@ class Encoder : private Port {
 	 * Encoder [smart_port: encoder._smart_port, adi_port: encoder._adi_port,
 	 * value: (value)]
 	 */ 
-	friend std::ostream& operator<<(std::ostream& os, pros::adi::Encoder& encoder);
+	friend std::ostream& operator<<(std::ostream& os, Encoder& encoder);
 	ext_adi_port_tuple_t get_port() const override;
 
 	private:
@@ -1464,7 +1464,7 @@ class Potentiometer : public AnalogIn {
 	 * angle: (angle)]
 	 * Prints in format(this below is all in one line with no new line):
 	 */ 
-	friend std::ostream& operator<<(std::ostream& os, pros::adi::Potentiometer& potentiometer);
+	friend std::ostream& operator<<(std::ostream& os, Potentiometer& potentiometer);
 
 	using Port::get_port;
 	

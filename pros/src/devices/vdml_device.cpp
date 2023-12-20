@@ -25,20 +25,18 @@ inline namespace v5 {
 bool Device::is_installed() {
     std::uint8_t zero_indexed_port = _port - 1;
     port_mutex_take(zero_indexed_port);
-    pros::DeviceType plugged_device_type = (pros::DeviceType)pros::c::registry_get_plugged_type(zero_indexed_port);
+    DeviceType plugged_device_type = (DeviceType)c::registry_get_plugged_type(zero_indexed_port);
 	return_port(zero_indexed_port, _deviceType == plugged_device_type);
 }
 
-std::uint8_t Device::get_port() {
-	return _port;
-}
+std::uint8_t Device::get_port() { return _port; }
 
-pros::DeviceType Device::get_plugged_type() const {
+DeviceType Device::get_plugged_type() const {
 	if (!port_mutex_take(_port - 1)) {                            
 		errno = EACCES; 
 		return DeviceType::undefined;                                                                           
 	}
-	DeviceType type = (DeviceType) pros::c::registry_get_plugged_type(_port - 1);
+	DeviceType type = (DeviceType)c::registry_get_plugged_type(_port - 1);
 	
 	return_port(_port - 1, type);
 }

@@ -19,23 +19,23 @@ inline namespace v5 {
 Distance::Distance(const std::uint8_t port) : Device(port, DeviceType::distance) {}
 
 std::int32_t Distance::get() {
-	return pros::c::distance_get(_port);
+	return c::distance_get(_port);
 }
 
 std::int32_t Distance::get_confidence() {
-	return pros::c::distance_get_confidence(_port);
+	return c::distance_get_confidence(_port);
 }
 
 std::int32_t Distance::get_object_size() {
-	return pros::c::distance_get_object_size(_port);
+	return c::distance_get_object_size(_port);
 }
 
 double Distance::get_object_velocity() {
-	return pros::c::distance_get_object_velocity(_port);
+	return c::distance_get_object_velocity(_port);
 }
 
 
-std::ostream& operator<<(std::ostream& os, pros::Distance& distance) {
+std::ostream& operator<<(std::ostream& os, Distance& distance) {
 	os << "Distance [";
 	os << "port: " << distance.get_port();
 	os << ", distance: " << distance.get();
@@ -47,8 +47,8 @@ std::ostream& operator<<(std::ostream& os, pros::Distance& distance) {
 }
 
 namespace literals {
-const pros::Distance operator"" _dist(const unsigned long long int d) {
-    return pros::Distance(d);
+const Distance operator"" _dist(const unsigned long long int d) {
+    return Distance(d);
 }
 } // namespace literals
 } // namespace v5

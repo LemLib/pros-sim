@@ -995,9 +995,9 @@ class AbstractMotor {
 	 * failed, setting errno.
 	 */
 	virtual std::int32_t set_brake_mode(const MotorBrake mode, const std::uint8_t index = 0) const = 0;
-	virtual std::int32_t set_brake_mode(const pros::motor_brake_mode_e_t mode, const std::uint8_t index = 0) const = 0;
+	virtual std::int32_t set_brake_mode(const motor_brake_mode_e_t mode, const std::uint8_t index = 0) const = 0;
 	virtual std::int32_t set_brake_mode_all(const MotorBrake mode) const = 0;
-	virtual std::int32_t set_brake_mode_all(const pros::motor_brake_mode_e_t mode) const = 0;
+	virtual std::int32_t set_brake_mode_all(const motor_brake_mode_e_t mode) const = 0;
 	/**
 	 * Sets the current limit for the motor in mA.
 	 *
@@ -1036,9 +1036,9 @@ class AbstractMotor {
 	 * failed, setting errno.
 	 */
 	virtual std::int32_t set_encoder_units(const MotorUnits units, const std::uint8_t index = 0) const = 0;
-	virtual std::int32_t set_encoder_units(const pros::motor_encoder_units_e_t units, const std::uint8_t index = 0) const = 0;
+	virtual std::int32_t set_encoder_units(const motor_encoder_units_e_t units, const std::uint8_t index = 0) const = 0;
 	virtual std::int32_t set_encoder_units_all(const MotorUnits units) const = 0;
-	virtual std::int32_t set_encoder_units_all(const pros::motor_encoder_units_e_t units) const = 0;
+	virtual std::int32_t set_encoder_units_all(const motor_encoder_units_e_t units) const = 0;
 	/**
 	 * Sets one of the gear cartridge (red, green, blue) for the motor. Usable with
 	 * the C++ enum class and the C enum.
@@ -1058,9 +1058,9 @@ class AbstractMotor {
 	 * failed, setting errno.
 	 */
 	virtual std::int32_t set_gearing(const MotorGears gearset, const std::uint8_t index = 0) const = 0;
-	virtual std::int32_t set_gearing(const pros::motor_gearset_e_t gearset, const std::uint8_t index = 0) const = 0;
+	virtual std::int32_t set_gearing(const motor_gearset_e_t gearset, const std::uint8_t index = 0) const = 0;
 	virtual std::int32_t set_gearing_all(const MotorGears gearset) const = 0;
-	virtual std::int32_t set_gearing_all(const pros::motor_gearset_e_t gearset) const = 0;
+	virtual std::int32_t set_gearing_all(const motor_gearset_e_t gearset) const = 0;
 
 	/**
 	 * Sets the reverse flag for the motor.

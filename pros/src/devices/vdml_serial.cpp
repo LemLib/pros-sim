@@ -62,8 +62,8 @@ std::int32_t Serial::write(std::uint8_t* buffer, std::int32_t length) const {
 }
 
 namespace literals {
-const pros::Serial operator"" _ser(const unsigned long long int m) {
-	return pros::Serial(m);
+const Serial operator"" _ser(const unsigned long long int m) {
+	return Serial(m);
 }
 }  // namespace literals
 }  // namespace pros

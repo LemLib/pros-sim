@@ -221,7 +221,7 @@ class Optical : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::c::optical_rgb_s_t get_rgb();
+	virtual c::optical_rgb_s_t get_rgb();
 
 	/**
 	 * Get the raw un-processed RGBC data from the sensor
@@ -234,7 +234,7 @@ class Optical : public Device {
 	 * \return raw rgb value if the operation was successful or an optical_raw_s_t 
 	 * with all fields set to PROS_ERR if the operation failed, setting errno.
 	 */
-	virtual pros::c::optical_raw_s_t get_raw();
+	virtual c::optical_raw_s_t get_raw();
 
 	/**
 	 * Get the most recent gesture data from the sensor
@@ -265,7 +265,7 @@ class Optical : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::c::optical_direction_e_t get_gesture();
+	virtual c::optical_direction_e_t get_gesture();
 
 	/**
 	 * Get the most recent raw gesture data from the sensor
@@ -298,7 +298,7 @@ class Optical : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::c::optical_gesture_s_t get_gesture_raw();
+	virtual c::optical_gesture_s_t get_gesture_raw();
 
 	/**
 	 * Enable gesture detection on the sensor
@@ -374,14 +374,14 @@ class Optical : public Device {
 	 * std::cout << optical << std::endl;
 	 * \endcode
 	 */
-	friend std::ostream& operator<<(std::ostream& os, pros::Optical& optical);
+	friend std::ostream& operator<<(std::ostream& os, Optical& optical);
   
 	private:
 	///@}
 };
 
 namespace literals {
-const pros::Optical operator"" _opt(const unsigned long long int o);
+const Optical operator"" _opt(const unsigned long long int o);
 }  // namespace literals
 }
 }  // namespace pros

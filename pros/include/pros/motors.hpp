@@ -71,8 +71,8 @@ class Motor : public AbstractMotor, public Device {
  	 * \endcode
 	 * 
 	 */
-	Motor(const std::int8_t port, const pros::v5::MotorGears gearset = pros::v5::MotorGears::invalid,
-	               const pros::v5::MotorUnits encoder_units = pros::v5::MotorUnits::invalid);
+	Motor(const std::int8_t port, const MotorGears gearset = MotorGears::invalid,
+	               const MotorUnits encoder_units = MotorUnits::invalid);
 
 	
 
@@ -1197,7 +1197,7 @@ class Motor : public AbstractMotor, public Device {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_brake_mode(const pros::motor_brake_mode_e_t mode, const std::uint8_t index = 0) const;
+	std::int32_t set_brake_mode(const motor_brake_mode_e_t mode, const std::uint8_t index = 0) const;
 
 	/**
 	 * Sets the current limit for the motor in mA.
@@ -1298,7 +1298,7 @@ class Motor : public AbstractMotor, public Device {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_encoder_units(const pros::motor_encoder_units_e_t units, const std::uint8_t index = 0) const;
+	std::int32_t set_encoder_units(const motor_encoder_units_e_t units, const std::uint8_t index = 0) const;
 
 	/**
 	 * Sets one of the gear cartridge (red, green, blue) for the motor. Usable with
@@ -1370,7 +1370,7 @@ class Motor : public AbstractMotor, public Device {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_gearing(const pros::motor_gearset_e_t gearset, const std::uint8_t index = 0) const;
+	std::int32_t set_gearing(const motor_gearset_e_t gearset, const std::uint8_t index = 0) const;
 
 	/**
 	 * Sets the reverse flag for the motor.
@@ -2144,7 +2144,7 @@ class Motor : public AbstractMotor, public Device {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_brake_mode_all(const pros::motor_brake_mode_e_t mode) const;
+	std::int32_t set_brake_mode_all(const motor_brake_mode_e_t mode) const;
 
 	/**
 	 * Sets the current limit for the motor in mA.
@@ -2235,7 +2235,7 @@ class Motor : public AbstractMotor, public Device {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_encoder_units_all(const pros::motor_encoder_units_e_t units) const;
+	std::int32_t set_encoder_units_all(const motor_encoder_units_e_t units) const;
 	
 		
 	/**
@@ -2286,7 +2286,7 @@ class Motor : public AbstractMotor, public Device {
 	 * }
 	 * \endcode
 	 */
-	std::int32_t set_gearing_all(const pros::motor_gearset_e_t gearset) const;
+	std::int32_t set_gearing_all(const motor_gearset_e_t gearset) const;
 	
 	/**
 	 * Sets the reverse flag for the motor.
@@ -2412,8 +2412,8 @@ class Motor : public AbstractMotor, public Device {
 	std::int8_t _port;
 };
 namespace literals {
-const pros::Motor operator"" _mtr(const unsigned long long int m);
-const pros::Motor operator"" _rmtr(const unsigned long long int m);
+const Motor operator"" _mtr(const unsigned long long int m);
+const Motor operator"" _rmtr(const unsigned long long int m);
 }  // namespace literals
 }  // namespace v5
 }  // namespace pros

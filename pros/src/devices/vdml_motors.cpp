@@ -19,12 +19,12 @@ inline namespace v5 {
 using namespace pros::c;
 
 
-Motor::Motor(const std::int8_t port, const pros::v5::MotorGears gearset, const pros::v5::MotorUnits encoder_units)
+Motor::Motor(const std::int8_t port, const MotorGears gearset, const MotorUnits encoder_units)
     : Device(port, DeviceType::motor), _port(port) {
-	if (gearset != pros::v5::MotorGears::invalid) {
+	if (gearset != MotorGears::invalid) {
 		set_gearing(gearset);
 	}
-	if (encoder_units != pros::v5::MotorEncoderUnits::invalid) {
+	if (encoder_units != MotorEncoderUnits::invalid) {
 		set_encoder_units(encoder_units);
 	}
 }
@@ -70,22 +70,22 @@ double Motor::get_actual_velocity(const std::uint8_t index) const {
 	return motor_get_actual_velocity(_port);
 }
 std::vector<double> Motor::get_actual_velocity_all(void) const {
-	std::vector<double> return_vector;
-	return_vector.push_back(motor_get_actual_velocity(_port));
-	return return_vector;
+    std::vector<double> return_vector;
+    return_vector.push_back(motor_get_actual_velocity(_port));
+    return return_vector;
 }
 
-pros::v5::MotorBrake Motor::get_brake_mode(const std::uint8_t index) const {
+MotorBrake Motor::get_brake_mode(const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
-		return pros::v5::MotorBrake::invalid;
+		return MotorBrake::invalid;
 	}
-	return static_cast<pros::v5::MotorBrake>(motor_get_brake_mode(_port));
+	return static_cast<MotorBrake>(motor_get_brake_mode(_port));
 }
 
-std::vector<pros::v5::MotorBrake> Motor::get_brake_mode_all() const {
-	std::vector<pros::v5::MotorBrake> return_vector;
-	return_vector.push_back(static_cast<pros::v5::MotorBrake>(motor_get_brake_mode(_port)));
+std::vector<MotorBrake> Motor::get_brake_mode_all() const {
+	std::vector<MotorBrake> return_vector;
+	return_vector.push_back(static_cast<MotorBrake>(motor_get_brake_mode(_port)));
 	return return_vector;
 }
 
@@ -154,22 +154,22 @@ double Motor::get_efficiency(const std::uint8_t index) const {
 	return motor_get_efficiency(_port);
 }
 std::vector<double> Motor::get_efficiency_all(void) const {
-	std::vector<double> return_vector;
-	return_vector.push_back(motor_get_efficiency(_port));
-	return return_vector;
+    std::vector<double> return_vector;
+    return_vector.push_back(motor_get_efficiency(_port));
+    return return_vector;
 }
 
-pros::v5::MotorUnits Motor::get_encoder_units(const std::uint8_t index) const {
+MotorUnits Motor::get_encoder_units(const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
-		return pros::v5::MotorUnits::invalid;
+		return MotorUnits::invalid;
 	}
-	return static_cast<pros::v5::MotorUnits>(motor_get_encoder_units(_port));
+	return static_cast<MotorUnits>(motor_get_encoder_units(_port));
 }
 
-std::vector<pros::v5::MotorUnits> Motor::get_encoder_units_all(void) const {
-	std::vector<pros::v5::MotorUnits> return_vector;
-	return_vector.push_back(static_cast<pros::v5::MotorUnits>(motor_get_encoder_units(_port)));
+std::vector<MotorUnits> Motor::get_encoder_units_all(void) const {
+	std::vector<MotorUnits> return_vector;
+	return_vector.push_back(static_cast<MotorUnits>(motor_get_encoder_units(_port)));
 	return return_vector;
 }
 
@@ -196,21 +196,21 @@ std::uint32_t Motor::get_flags(const std::uint8_t index) const {
 }
 
 std::vector<std::uint32_t> Motor::get_flags_all(void) const {
-	std::vector<std::uint32_t> return_vector;
-	return_vector.push_back(motor_get_flags(_port));
-	return return_vector;
+    std::vector<std::uint32_t> return_vector;
+    return_vector.push_back(motor_get_flags(_port));
+    return return_vector;
 }
 
-pros::v5::MotorGears Motor::get_gearing(const std::uint8_t index) const {
+MotorGears Motor::get_gearing(const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
-		return pros::v5::MotorGears::invalid;
+		return MotorGears::invalid;
 	}
-	return static_cast<pros::v5::MotorGears>(motor_get_gearing(_port));
+	return static_cast<MotorGears>(motor_get_gearing(_port));
 }
-std::vector<pros::v5::MotorGears> Motor::get_gearing_all(void) const {
-	std::vector<pros::v5::MotorGears> return_vector;
-	return_vector.push_back(static_cast<pros::v5::MotorGears>(motor_get_gearing(_port)));
+std::vector<MotorGears> Motor::get_gearing_all(void) const {
+	std::vector<MotorGears> return_vector;
+	return_vector.push_back(static_cast<MotorGears>(motor_get_gearing(_port)));
 	return return_vector;
 }
 
@@ -382,7 +382,7 @@ std::int32_t Motor::tare_position(const std::uint8_t index) const {
 	return motor_tare_position(_port);
 }
 
-std::int32_t Motor::set_brake_mode(const pros::motor_brake_mode_e_t mode, const std::uint8_t index) const {
+std::int32_t Motor::set_brake_mode(const motor_brake_mode_e_t mode, const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
 		return PROS_ERR;
@@ -390,12 +390,12 @@ std::int32_t Motor::set_brake_mode(const pros::motor_brake_mode_e_t mode, const 
 	return motor_set_brake_mode(_port, mode);
 }
 
-std::int32_t Motor::set_brake_mode(const pros::v5::MotorBrake mode, const std::uint8_t index) const {
+std::int32_t Motor::set_brake_mode(const MotorBrake mode, const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
 		return PROS_ERR;
 	}
-	return motor_set_brake_mode(_port, static_cast<pros::motor_brake_mode_e_t>(mode));
+	return motor_set_brake_mode(_port, static_cast<motor_brake_mode_e_t>(mode));
 }
 
 std::int32_t Motor::set_current_limit(const std::int32_t limit, const std::uint8_t index) const {
@@ -406,7 +406,7 @@ std::int32_t Motor::set_current_limit(const std::int32_t limit, const std::uint8
 	return motor_set_current_limit(_port, limit);
 }
 
-std::int32_t Motor::set_encoder_units(const pros::motor_encoder_units_e_t units, const std::uint8_t index) const {
+std::int32_t Motor::set_encoder_units(const motor_encoder_units_e_t units, const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
 		return PROS_ERR;
@@ -414,7 +414,7 @@ std::int32_t Motor::set_encoder_units(const pros::motor_encoder_units_e_t units,
 	return motor_set_encoder_units(_port, units);
 }
 
-std::int32_t Motor::set_encoder_units(const pros::v5::MotorUnits units, const std::uint8_t index) const {
+std::int32_t Motor::set_encoder_units(const MotorUnits units, const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
 		return PROS_ERR;
@@ -430,7 +430,7 @@ std::int32_t Motor::set_gearing(const motor_gearset_e_t gearset, const std::uint
 	return motor_set_gearing(_port, gearset);
 }
 
-std::int32_t Motor::set_gearing(const pros::v5::MotorGear gearset, const std::uint8_t index) const {
+std::int32_t Motor::set_gearing(const MotorGear gearset, const std::uint8_t index) const {
 	if (index != 0) {
 		errno = EOVERFLOW;
 		return PROS_ERR;
@@ -473,23 +473,23 @@ std::int32_t Motor::tare_position_all(void) const {
 	return motor_tare_position(_port);
 }
 
-std::int32_t Motor::set_brake_mode_all(const pros::motor_brake_mode_e_t mode) const {
+std::int32_t Motor::set_brake_mode_all(const motor_brake_mode_e_t mode) const {
 	return motor_set_brake_mode(_port, mode);
 }
 
-std::int32_t Motor::set_brake_mode_all(const pros::v5::MotorBrake mode) const {
-	return motor_set_brake_mode(_port, static_cast<pros::motor_brake_mode_e_t>(mode));
+std::int32_t Motor::set_brake_mode_all(const MotorBrake mode) const {
+	return motor_set_brake_mode(_port, static_cast<motor_brake_mode_e_t>(mode));
 }
 
 std::int32_t Motor::set_current_limit_all(const std::int32_t limit) const {
 	return motor_set_current_limit(_port, limit);
 }
 
-std::int32_t Motor::set_encoder_units_all(const pros::motor_encoder_units_e_t units) const {
+std::int32_t Motor::set_encoder_units_all(const motor_encoder_units_e_t units) const {
 	return motor_set_encoder_units(_port, units);
 }
 
-std::int32_t Motor::set_encoder_units_all(const pros::v5::MotorUnits units) const {
+std::int32_t Motor::set_encoder_units_all(const MotorUnits units) const {
 	return motor_set_encoder_units(_port, static_cast<motor_encoder_units_e_t>(units));
 }
 
@@ -497,7 +497,7 @@ std::int32_t Motor::set_gearing_all(const motor_gearset_e_t gearset) const {
 	return motor_set_gearing(_port, gearset);
 }
 
-std::int32_t Motor::set_gearing_all(const pros::v5::MotorGear gearset) const {
+std::int32_t Motor::set_gearing_all(const MotorGear gearset) const {
 	return motor_set_gearing(_port, static_cast<motor_gearset_e_t>(gearset));
 }
 
@@ -523,7 +523,7 @@ std::int8_t Motor::size() const {
 	return 1;
 }
 
-std::ostream& operator<<(std::ostream& os, pros::Motor& motor) {
+std::ostream& operator<<(std::ostream& os, Motor& motor) {
 	os << "Motor [";
 	os << "port: " << motor.get_port();
 	os << ", brake mode: " << (int)motor.get_brake_mode();
@@ -545,11 +545,11 @@ std::ostream& operator<<(std::ostream& os, pros::Motor& motor) {
 
 }  // namespace v5
 namespace literals {
-const pros::Motor operator"" _mtr(const unsigned long long int m) {
-	return pros::Motor(m);
+const Motor operator"" _mtr(const unsigned long long int m) {
+	return Motor(m);
 }
-const pros::Motor operator"" _rmtr(const unsigned long long int m) {
-	return pros::Motor(-m);
+const Motor operator"" _rmtr(const unsigned long long int m) {
+	return Motor(-m);
 }
 }  // namespace literals
 }  // namespace pros

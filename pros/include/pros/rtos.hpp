@@ -149,7 +149,7 @@ class Task {
 	static task_t create(F&& function, std::uint32_t prio = TASK_PRIORITY_DEFAULT,
 	                     std::uint16_t stack_depth = TASK_STACK_DEPTH_DEFAULT, const char* name = "") {
 		static_assert(std::is_invocable_r_v<void, F>);
-		return pros::c::task_create(
+		return c::task_create(
 		    [](void* parameters) {
 			    std::unique_ptr<std::function<void()>> ptr{static_cast<std::function<void()>*>(parameters)};
 			    (*ptr)();
@@ -1554,14 +1554,14 @@ class MutexVar {
  *
  * \return The number of milliseconds since PROS initialized
  */
-using pros::c::millis;
+using c::millis;
 
 /**
  * Gets the number of microseconds since PROS initialized.
  *
  * \return The number of microseconds since PROS initialized
  */
-using pros::c::micros;
+using c::micros;
 
 /**
  * Delays a task for a given number of milliseconds.
@@ -1573,7 +1573,7 @@ using pros::c::micros;
  * \param milliseconds
  * 		  The number of milliseconds to wait (1000 milliseconds per second)
  */
-using pros::c::delay;
+using c::delay;
 }  // namespace rtos
 }  // namespace pros
 

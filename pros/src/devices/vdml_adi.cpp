@@ -65,7 +65,7 @@ std::int32_t AnalogIn::get_value_calibrated_HR() const {
 	return ext_adi_analog_read_calibrated_HR(_smart_port, _adi_port);
 }
 
-std::ostream& operator<<(std::ostream& os, pros::adi::AnalogIn& analog_in) {
+std::ostream& operator<<(std::ostream& os, AnalogIn& analog_in) {
 	os << "AnalogIn [";
 	os << "smart_port: " << +analog_in._smart_port;
 	os << ", adi_port: " << ((analog_in._adi_port > 10) ? analog_in._adi_port : +analog_in._adi_port);
@@ -80,7 +80,7 @@ std::ostream& operator<<(std::ostream& os, pros::adi::AnalogIn& analog_in) {
 AnalogOut::AnalogOut(std::uint8_t adi_port) : Port(adi_port, E_ADI_ANALOG_OUT) {}
 AnalogOut::AnalogOut(ext_adi_port_pair_t port_pair) : Port(port_pair, E_ADI_ANALOG_OUT) {}
 
-std::ostream& operator<<(std::ostream& os, pros::adi::AnalogOut& analog_out) {
+std::ostream& operator<<(std::ostream& os, AnalogOut& analog_out) {
 	os << "AnalogOut [";
 	os << "smart_port: " << +analog_out._smart_port;
 	os << ", adi_port: " << ((analog_out._adi_port > 10) ? analog_out._adi_port : +analog_out._adi_port);
@@ -97,7 +97,7 @@ std::int32_t DigitalIn::get_new_press() const {
 	return ext_adi_digital_get_new_press(_smart_port, _adi_port);
 }
 
-std::ostream& operator<<(std::ostream& os, pros::adi::DigitalIn& digital_in) {
+std::ostream& operator<<(std::ostream& os, DigitalIn& digital_in) {
 	os << "DigitalIn [";
 	os << "smart_port: " << +digital_in._smart_port;
 	os << ", adi_port: " << ((digital_in._adi_port > 10) ? digital_in._adi_port : +digital_in._adi_port);
@@ -115,7 +115,7 @@ DigitalOut::DigitalOut(ext_adi_port_pair_t port_pair, bool init_state) : ADIPort
 	set_value(init_state);
 }
 
-std::ostream& operator<<(std::ostream& os, pros::adi::DigitalOut& digital_out) {
+std::ostream& operator<<(std::ostream& os, DigitalOut& digital_out) {
 	os << "DigitalOut [";
 	os << "smart_port: " << +digital_out._smart_port;
 	os << ", adi_port: " << ((digital_out._adi_port > 10) ? digital_out._adi_port : +digital_out._adi_port);
@@ -160,7 +160,7 @@ ext_adi_port_tuple_t ADIEncoder::get_port() const {
 	return std::make_tuple(_smart_port, std::get<0>(_port_pair), std::get<1>(_port_pair));
 }
 
-std::ostream& operator<<(std::ostream& os, pros::adi::Encoder& encoder) {
+std::ostream& operator<<(std::ostream& os, Encoder& encoder) {
 	os << "Encoder [";
 	os << "smart_port: " << +encoder._smart_port;
 	os << ", adi_port: " << ((encoder._adi_port > 10) ? encoder._adi_port : +encoder._adi_port);
@@ -315,7 +315,7 @@ bool Pneumatics::is_extended() const {
 	return state ^ extended_is_low;
 }
 
-std::ostream& operator<<(std::ostream& os, pros::adi::Potentiometer& potentiometer) {
+std::ostream& operator<<(std::ostream& os, Potentiometer& potentiometer) {
 	os << "Potentiometer [";
 	os << "smart_port: " << +potentiometer._smart_port;
 	os << ", adi_port: " << ((potentiometer._adi_port > 10) ? potentiometer._adi_port : +potentiometer._adi_port);

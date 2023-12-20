@@ -267,7 +267,7 @@ class Imu : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::quaternion_s_t get_quaternion() const;
+	virtual quaternion_s_t get_quaternion() const;
 	/**
 	 * Get the Euler angles representing the Inertial Sensor's orientation
 	 *
@@ -300,7 +300,7 @@ class Imu : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::euler_s_t get_euler() const;
+	virtual euler_s_t get_euler() const;
 	/**
 	 * Get the Inertial Sensor's pitch angle bounded by (-180,180)
 	 *
@@ -423,7 +423,7 @@ class Imu : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::imu_gyro_s_t get_gyro_rate() const;
+	virtual imu_gyro_s_t get_gyro_rate() const;
 	/**
 	 * Resets the current reading of the Inertial Sensor's rotation to zero
 	 *
@@ -884,7 +884,7 @@ class Imu : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual std::int32_t set_euler(const pros::euler_s_t target) const;
+	virtual std::int32_t set_euler(const euler_s_t target) const;
 	/**
 	 * Get the Inertial Sensor's raw accelerometer values
 	 *
@@ -918,7 +918,7 @@ class Imu : public Device {
 	 * }
 	 * \endcode   
 	 */
-	virtual pros::imu_accel_s_t get_accel() const;
+	virtual imu_accel_s_t get_accel() const;
 	/**
 	 * Get the Inertial Sensor's status
 	 *
@@ -952,7 +952,7 @@ class Imu : public Device {
 	 * }
 	 * \endcode
 	 */
-	virtual pros::ImuStatus get_status() const;
+	virtual ImuStatus get_status() const;
 	/**
 	 * Check whether the IMU is calibrating
 	 *
@@ -992,13 +992,13 @@ class Imu : public Device {
 	 * pitch: (pitch angle), roll: (roll angle), yaw: (yaw angle), 
 	 * gyro rate: {x,y,z}, get accel: {x,y,z}, calibrating: (calibrating boolean)]
 	 */
-	friend std::ostream& operator<<(std::ostream& os, const pros::Imu& imu);
+	friend std::ostream& operator<<(std::ostream& os, const Imu& imu);
 
 	///@}
 };
 
 namespace literals {
-const pros::Imu operator"" _imu(const unsigned long long int i);
+const Imu operator"" _imu(const unsigned long long int i);
 }  // namespace literals
 
 using IMU = Imu;

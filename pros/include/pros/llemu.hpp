@@ -117,7 +117,7 @@ namespace lcd {
      */
     template <typename... Params>
     bool print(std::int16_t line, const char* fmt, Params... args) {
-	    return pros::c::lcd_print(line, fmt, convert_args(args)...);
+	    return c::lcd_print(line, fmt, convert_args(args)...);
     }
 
     #ifndef LCD_BTN_LEFT

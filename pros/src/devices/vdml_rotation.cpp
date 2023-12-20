@@ -18,53 +18,53 @@ inline namespace v5 {
     
 Rotation::Rotation(const std::int8_t port) : Device(port, DeviceType::rotation) {
     if (port < 0) {
-        pros::c::rotation_set_reversed(abs(port), true);
+        c::rotation_set_reversed(abs(port), true);
     } else {
-        pros::c::rotation_set_reversed(port, false);
+        c::rotation_set_reversed(port, false);
     }
 }
 
 std::int32_t Rotation::reset() {
-	return pros::c::rotation_reset(_port);
+	return c::rotation_reset(_port);
 }
 
 std::int32_t Rotation::set_data_rate(std::uint32_t rate) const {
-	return pros::c::rotation_set_data_rate(_port, rate);
+	return c::rotation_set_data_rate(_port, rate);
 }
 
 std::int32_t Rotation::set_position(std::uint32_t position) const {
-	return pros::c::rotation_set_position(_port, position);
+	return c::rotation_set_position(_port, position);
 }
 
 std::int32_t Rotation::reset_position(void) const {
-	return pros::c::rotation_reset_position(_port);
+	return c::rotation_reset_position(_port);
 }
 
 std::int32_t Rotation::get_position(void) const {
-	return pros::c::rotation_get_position(_port);
+	return c::rotation_get_position(_port);
 }
 
 std::int32_t Rotation::get_velocity(void) const {
-	return pros::c::rotation_get_velocity(_port);
+	return c::rotation_get_velocity(_port);
 }
 
 std::int32_t Rotation::get_angle(void) const {
-	return pros::c::rotation_get_angle(_port);
+	return c::rotation_get_angle(_port);
 }
 
 std::int32_t Rotation::set_reversed(bool value) const {
-	return pros::c::rotation_set_reversed(_port, value);
+	return c::rotation_set_reversed(_port, value);
 }
 
 std::int32_t Rotation::reverse(void) const {
-	return pros::c::rotation_reverse(_port);
+	return c::rotation_reverse(_port);
 }
 
 std::int32_t Rotation::get_reversed(void) const {
-	return pros::c::rotation_get_reversed(_port);
+	return c::rotation_get_reversed(_port);
 }
 
-std::ostream& operator<<(std::ostream& os, const pros::Rotation& rotation) {
+std::ostream& operator<<(std::ostream& os, const Rotation& rotation) {
 	os << "Rotation [";
 	os << "port: " << rotation._port;
 	os << ", position: " << rotation.get_position();
@@ -76,8 +76,8 @@ std::ostream& operator<<(std::ostream& os, const pros::Rotation& rotation) {
 }
 
 namespace literals {
-const pros::Rotation operator"" _rot(const unsigned long long int r) {
-    return pros::Rotation(r);
+const Rotation operator"" _rot(const unsigned long long int r) {
+    return Rotation(r);
 }
 } // namespace literals 
 
