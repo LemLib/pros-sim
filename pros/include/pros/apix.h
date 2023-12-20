@@ -49,7 +49,7 @@ extern "C" {
 /// \name RTOS Facilities
 ///@{
 
-typedef void* queue_t;
+    typedef void* queue_t;
 typedef void* sem_t;
 
 /**

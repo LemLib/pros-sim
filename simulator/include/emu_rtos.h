@@ -27,7 +27,16 @@ typedef struct {
     pthread_mutex_t suspendMutex;
     pthread_condattr_t condAttr;
     pthread_cond_t resumeCond;
+    uint32_t ulNotifiedValue;
+    uint8_t ucNotifyState;
 } task_t_internal;
+
+typedef struct {
+    uint32_t magic;
+    pthread_mutex_t mutex;
+    pthread_mutexattr_t attr;
+    bool deleted;
+} mutex_t_internal;
 
 void task_register(task_t_internal *task);
 void task_deregister(task_t_internal *task);

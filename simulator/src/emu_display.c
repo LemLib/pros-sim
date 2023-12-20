@@ -46,7 +46,7 @@ bool sim_SDL_setup() {
 
     windowFlags = 0;
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER) < 0) {
         printf("Couldn't initialize SDL: %s\n", SDL_GetError());
         return false;
     }
@@ -68,6 +68,7 @@ bool sim_SDL_setup() {
         SDL_DestroyWindow(display.window);
         return false;
     }
+
     display.init = true;
     return true;
 }

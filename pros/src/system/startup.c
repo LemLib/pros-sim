@@ -29,7 +29,7 @@ void pros_init() {
 
 	// vfs_initialize();
 	//
-	// vdml_initialize();
+	vdml_initialize();
 
 	graphical_context_daemon_initialize();
 	display_initialize();

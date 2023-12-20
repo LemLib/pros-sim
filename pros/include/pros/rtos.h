@@ -182,7 +182,7 @@ typedef enum {
  * be claimed by a task, which will prevent other tasks from claiming it until
  * that task releases it.
  */
-typedef pthread_mutex_t* mutex_t;
+typedef void* mutex_t;
 
 /// @} Name: Typedefs
 
