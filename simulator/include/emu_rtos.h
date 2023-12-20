@@ -5,9 +5,7 @@
 #include <bits/sigthread.h>
 #include <sys/time.h>
 #include <stdbool.h>
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 typedef struct {
     void (*func)(void*);
     void* parameters;
@@ -41,8 +39,3 @@ typedef struct {
 void task_register(task_t_internal *task);
 void task_deregister(task_t_internal *task);
 bool task_exists(const char* name);
-#ifdef __cplusplus
-}
-#include <map>
-std::map<const char*, task_t_internal*>& get_tasks();
-#endif

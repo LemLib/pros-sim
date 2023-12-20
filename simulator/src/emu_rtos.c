@@ -304,6 +304,6 @@ void mutex_delete(mutex_t mutex) {
         return;
     }
     internal->deleted = true;
-    pthread_mutex_destroy(&internal->mutex)
+    pthread_mutex_destroy(&internal->mutex);
     pthread_mutexattr_destroy(&internal->attr);
 }

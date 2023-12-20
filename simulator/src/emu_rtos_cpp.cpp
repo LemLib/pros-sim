@@ -3,75 +3,136 @@
 
 #include <map>
 
-std::map<const char*, task_t_internal*>& get_tasks() {
-    static std::map<const char*, task_t_internal*> tasks;
-    return tasks;
-}
+static std::map<const char*, task_t_internal*> tasks;
 
-bool task_exists(const char* name) { return get_tasks().contains(name); }
+bool task_exists(const char* name) { return tasks.contains(name); }
 
-pros::task_t task_get_by_name(const char* name) { return get_tasks()[name]; }
+pros::task_t task_get_by_name(const char* name) { return tasks[name]; }
 
-void task_register(task_t_internal* task) { get_tasks().emplace(task->name, task); }
+void task_register(task_t_internal* task) { tasks.emplace(task->name, task); }
 
-void task_deregister(task_t_internal* task) { get_tasks().erase(task->name); }
+void task_deregister(task_t_internal* task) { tasks.erase(task->name); }
 
-uint32_t task_get_count() { return get_tasks().size(); }
+uint32_t task_get_count() { return tasks.size(); }
 
 extern "C" pros::task_t task_get_current() {
     const pthread_t current = pthread_self();
-    for (const auto map = get_tasks(); const auto [_, snd] : map) {
+    for (const auto map = tasks; const auto [_, snd] : map) {
         if (pthread_equal(snd->thread, current)) { return snd; }
     }
     return nullptr;
 }
 
-pros::Task::Task(task_fn_t function, void* parameters, std::uint32_t prio, std::uint16_t stack_depth,
-                 const char* name) {
-    task = c::task_create(function, parameters, prio, stack_depth, name);
+
+namespace pros {
+using namespace pros::c;
+
+Task::Task(task_fn_t function, void* parameters, std::uint32_t prio, std::uint16_t stack_depth, const char* name) {
+	task = task_create(function, parameters, prio, stack_depth, name);
 }
 
-pros::Task::Task(task_t task)
-    : task(task) {}
+Task::Task(task_fn_t function, void* parameters, const char* name)
+    : Task(function, parameters, TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, name) {}
 
-pros::Task& pros::Task::operator=(task_t in) {
-
-}
-void pros::Task::remove() {
-    return c::task_delete(task);
-}
-
-std::uint32_t pros::Task::get_priority() {
-    return static_cast<task_t_internal*>(task)->prio;
+Task::Task(task_t task) : task(task) {}
+Task& Task::operator=(const task_t in) {
+	task = in;
+	return *this;
 }
 
-void pros::Task::set_priority(std::uint32_t prio) {
-    static_cast<task_t_internal*>(task)->prio = prio;
-
-}
-std::uint32_t pros::Task::get_state() {
-    return c::task_get_state(task);
-}
-void pros::Task::suspend() {
-    return c::task_suspend(task);
-}
-void pros::Task::resume() {
-    return c::task_resume(task);
-}
-const char* pros::Task::get_name() {
-    return static_cast<task_t_internal*>(task)->name;
+Task Task::current() {
+	return Task{task_get_current()};
 }
 
-std::uint32_t pros::Task::notify() {
-    return c::task_notify(task);
-}
-void pros::Task::join() {
-    return c::task_join(task);
-}
-std::uint32_t pros::Task::notify_ext(std::uint32_t value, notify_action_e_t action, std::uint32_t* prev_value) {
-    return c::task_notify_ext(task, value, action, prev_value);
+void Task::remove() {
+	return task_delete(task);
 }
 
-bool pros::Task::notify_clear() {
-    return c::task_notify_clear(task);
+std::uint32_t Task::get_priority() {
+	return task_get_priority(task);
 }
+
+void Task::set_priority(std::uint32_t prio) {
+	task_set_priority(task, prio);
+}
+
+std::uint32_t Task::get_state() {
+	return task_get_state(task);
+}
+
+void Task::suspend() {
+	task_suspend(task);
+}
+
+void Task::resume() {
+	task_resume(task);
+}
+
+const char* Task::get_name() {
+	return task_get_name(task);
+}
+
+std::uint32_t Task::notify() {
+	return task_notify(task);
+}
+
+void Task::join() {
+	return task_join(task);
+}
+
+std::uint32_t Task::notify_ext(std::uint32_t value, notify_action_e_t action, std::uint32_t* prev_value) {
+	return task_notify_ext(task, value, action, prev_value);
+}
+
+std::uint32_t Task::notify_take(bool clear_on_exit, std::uint32_t timeout) {
+	return task_notify_take(clear_on_exit, timeout);
+}
+
+bool Task::notify_clear() {
+	return task_notify_clear(task);
+}
+
+void Task::delay(const std::uint32_t milliseconds) {
+	task_delay(milliseconds);
+}
+
+void Task::delay_until(std::uint32_t* const prev_time, const std::uint32_t delta) {
+	task_delay_until(prev_time, delta);
+}
+
+std::uint32_t Task::get_count() {
+	return task_get_count();
+}
+
+Mutex::Mutex() : mutex(mutex_create(), mutex_delete) {}
+
+Clock::time_point Clock::now() {
+	return Clock::time_point{Clock::duration{millis()}};
+}
+
+bool Mutex::take() {
+	return mutex_take(mutex.get(), TIMEOUT_MAX);
+}
+
+bool Mutex::take(std::uint32_t timeout) {
+	return mutex_take(mutex.get(), timeout);
+}
+
+bool Mutex::give() {
+	return mutex_give(mutex.get());
+}
+
+void Mutex::lock() {
+	if (!take(TIMEOUT_MAX)) {
+		throw std::system_error(errno, std::system_category(), "Cannot obtain lock!");
+	}
+}
+
+void Mutex::unlock() {
+	give();
+}
+
+bool Mutex::try_lock() {
+	return take(0);
+}
+}  // namespace pros
