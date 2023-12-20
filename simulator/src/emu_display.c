@@ -74,10 +74,11 @@ bool sim_SDL_setup() {
 }
 
 void display_background_processing() {
-    static int a = 0;
-    if (a % 5) return;
     bool buttonDown = false;
     SDL_Event e;
+    static int a = 0;
+    a++;
+    if(a % 5 != 0) return;
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_QUIT:

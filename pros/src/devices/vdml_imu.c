@@ -13,6 +13,7 @@
 #include <errno.h>
 #include "pros/imu.h"
 #include "v5_api.h"
+#include "pros/rtos.h"
 #include "vdml/registry.h"
 #include "vdml/vdml.h"
 

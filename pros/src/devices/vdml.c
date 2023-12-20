@@ -50,7 +50,6 @@ int32_t claim_port_try(uint8_t port, v5_device_e_t type) {
  * V5
  */
 mutex_t port_mutexes[V5_MAX_DEVICE_PORTS];            // Mutexes for each port
-sem_t port_mutex_bufs[V5_MAX_DEVICE_PORTS];  // Stack mem for rtos
 
 /**
  * Shorcut to initialize all of VDML (mutexes and register)
@@ -70,7 +69,7 @@ void vdml_initialize() {
  */
 void port_mutex_init() {
 	for (int i = 0; i < V5_MAX_DEVICE_PORTS; i++) {
-		port_mutexes[i] = mutex_create_static(&(port_mutex_bufs[i]));
+		port_mutexes[i] = mutex_create();
 	}
 }
 

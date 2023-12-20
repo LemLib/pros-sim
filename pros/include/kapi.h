@@ -79,37 +79,6 @@ void rtos_suspend_all();
  */
 int32_t rtos_resume_all();
 
-/**
- * Creates a statically allocated mutex.
- *
- * All FreeRTOS primitives must be created statically if they are required for
- * operation of the kernel.
- *
- * \param[out] mutex_buffer
- *             A buffer to store the mutex in
- *
- * \return A handle to a newly created mutex. If an error occurred, NULL will be
- * returned and errno can be checked for hints as to why mutex_create failed.
- */
-mutex_t mutex_create_static(sem_t* mutex_buffer);
-
-/**
- * Creates a statically allocated semaphore.
- *
- * All FreeRTOS primitives must be created statically if they are required for
- * operation of the kernel.
- *
- * \param max_count
- *        The maximum count value that can be reached.
- * \param init_count
- *        The initial count value assigned to the new semaphore.
- * \param[out] semaphore_buffer
- *             A buffer to store the semaphore in
- *
- * \return A newly created semaphore. If an error occurred, NULL will be
- * returned and errno can be checked for hints as to why sem_create failed.
- */
-sem_t sem_create_static(uint32_t max_count, uint32_t init_count, sem_t* semaphore_buffer);
 
 /**
  * Creates a statically allocated queue.

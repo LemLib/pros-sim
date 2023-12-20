@@ -35,31 +35,31 @@ uint64_t micros() {
     return tp.tv_sec * 1000000L + tp.tv_nsec / 1000L - get_start_time();
 }
 
-void* task_fn_wrapper(const void* parameters) {
-    const task_fn_args* args = parameters;
+void* task_fn_wrapper(void* parameters) {
+    task_fn_args* args = parameters;
 
     args->func(args->parameters);
     return 0;
 }
 
 void sig_func(const int sig) {
-    const task_t_internal* current = task_get_current();
+    task_t_internal* current = task_get_current();
     if (!current) return;
     if (current->magic != TASK_MAGIC) return;
     switch (sig) {
         case SIGUSR1:
             signal(SIGUSR1, sig_func);
-            pthread_mutex_lock((pthread_mutex_t*)&current->suspendMutex);
-            *(bool*)&current->suspended = true; // todo this is awful but the linter doesn't like it otherwise
-            pthread_cond_wait((pthread_cond_t*)&current->resumeCond, (pthread_mutex_t*)&current->suspendMutex);
-            pthread_mutex_unlock((pthread_mutex_t*)&current->suspendMutex);
+            pthread_mutex_lock(&current->suspendMutex);
+            current->suspended = true;
+            pthread_cond_wait(&current->resumeCond, &current->suspendMutex);
+            pthread_mutex_unlock(&current->suspendMutex);
             break;
         case SIGUSR2:
             signal(SIGUSR2, sig_func);
-            pthread_mutex_lock((pthread_mutex_t*)&current->suspendMutex);
-            *(bool*)&current->suspended = false; // todo this is awful but the linter doesn't like it otherwise
-            pthread_cond_signal((pthread_cond_t*)&current->resumeCond);
-            pthread_mutex_unlock((pthread_mutex_t*)&current->suspendMutex);
+            pthread_mutex_lock(&current->suspendMutex);
+            current->suspended = false;
+            pthread_cond_signal(&current->resumeCond);
+            pthread_mutex_unlock(&current->suspendMutex);
             break;
         default: break;
     }
@@ -198,10 +198,52 @@ uint32_t task_notify_ext(task_t task, uint32_t value, notify_action_e_t action, 
 }
 
 uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
-    
+    uint32_t ulReturn;
+    task_t_internal* current = task_get_current();
+
+    /* Only block if the notification count is not already non-zero. */
+    if (current->ulNotifiedValue == 0UL) {
+        /* Mark this task as waiting for a notification. */
+        current->ucNotifyState = taskWAITING_NOTIFICATION;
+
+        while (timeout > 0) {
+            if (current->ulNotifiedValue != 0UL) break;
+            task_delay(1);
+            timeout--;
+        }
+    }
+
+    ulReturn = current->ulNotifiedValue;
+
+    if (ulReturn != 0UL) {
+        if (clear_on_exit) {
+            current->ulNotifiedValue = 0UL;
+        } else {
+            current->ulNotifiedValue = ulReturn - (uint32_t)1;
+        }
+    }
+
+    current->ucNotifyState = taskNOT_WAITING_NOTIFICATION;
+
+    return ulReturn;
 }
 
-bool task_notify_clear(task_t task) {}
+bool task_notify_clear(task_t task) {
+    if (!task) task = task_get_current();
+    int32_t xReturn = 0;
+    task_t_internal* internal = task;
+
+    if (internal->magic != TASK_MAGIC || internal->deleted) return 0;
+
+    if (internal->ucNotifyState == taskNOTIFICATION_RECEIVED) {
+        internal->ucNotifyState = taskNOT_WAITING_NOTIFICATION;
+        xReturn = 1;
+    } else {
+        xReturn = 0;
+    }
+
+    return xReturn;
+}
 
 mutex_t mutex_create() {
     mutex_t_internal* mutex = malloc(sizeof(mutex_t_internal));
@@ -224,7 +266,10 @@ mutex_t mutex_create() {
 
 bool mutex_take(mutex_t mutex, uint32_t timeout) {
     mutex_t_internal* internal = mutex;
-    if (internal->magic != MUTEX_MAGIC || internal->deleted) return false;
+    if (internal->magic != MUTEX_MAGIC || internal->deleted) {
+        errno = ENXIO;
+        return false;
+    }
     struct timespec tp = {};
 
     clock_gettime(CLOCK_REALTIME, &tp);
@@ -242,7 +287,10 @@ bool mutex_take(mutex_t mutex, uint32_t timeout) {
 
 bool mutex_give(mutex_t mutex) {
     mutex_t_internal* internal = mutex;
-    if (internal->magic != MUTEX_MAGIC || internal->deleted) return false;
+    if (internal->magic != MUTEX_MAGIC || internal->deleted) {
+        errno = ENXIO;
+        return false;
+    }
     const int result = pthread_mutex_unlock(&internal->mutex);
     if (!result) return true;
     errno = result;
@@ -251,10 +299,11 @@ bool mutex_give(mutex_t mutex) {
 
 void mutex_delete(mutex_t mutex) {
     mutex_t_internal* internal = mutex;
-    if (internal->magic != MUTEX_MAGIC || internal->deleted) return;
+    if (internal->magic != MUTEX_MAGIC || internal->deleted) {
+        errno = ENXIO;
+        return;
+    }
     internal->deleted = true;
-    pthread_mutex_destroy(&internal->mutex);
+    pthread_mutex_destroy(&internal->mutex)
     pthread_mutexattr_destroy(&internal->attr);
 }
-
-mutex_t mutex_create_static(sem_t* mutex_buffer) {}
