@@ -7,13 +7,13 @@ static std::map<const char*, task_t_internal*> tasks;
 
 bool task_exists(const char* name) { return tasks.contains(name); }
 
-pros::task_t task_get_by_name(const char* name) { return tasks[name]; }
+extern "C" pros::task_t task_get_by_name(const char* name) { return tasks[name]; }
 
-void task_register(task_t_internal* task) { tasks.emplace(task->name, task); }
+extern "C" void task_register(task_t_internal* task) { tasks.emplace(task->name, task); }
 
-void task_deregister(task_t_internal* task) { tasks.erase(task->name); }
+extern "C" void task_deregister(task_t_internal* task) { tasks.erase(task->name); }
 
-uint32_t task_get_count() { return tasks.size(); }
+extern "C" std::uint32_t task_get_count() { return tasks.size(); }
 
 extern "C" pros::task_t task_get_current() {
     const pthread_t current = pthread_self();

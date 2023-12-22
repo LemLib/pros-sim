@@ -35,7 +35,13 @@ typedef struct {
     pthread_mutexattr_t attr;
     bool deleted;
 } mutex_t_internal;
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 void task_register(task_t_internal *task);
 void task_deregister(task_t_internal *task);
 bool task_exists(const char* name);
+
+#ifdef __cplusplus
+}
+#endif
