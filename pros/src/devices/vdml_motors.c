@@ -229,7 +229,7 @@ int32_t motor_tare_position(int8_t port) {
 int32_t motor_set_brake_mode(int8_t port, const motor_brake_mode_e_t mode) {
 	port = abs(port);
 	claim_port_i(port - 1, E_DEVICE_MOTOR);
-	vexDeviceMotorBrakeModeSet(device->device_info, (V5MotorBrakeMode)mode);
+	vexDeviceMotorBrakeModeSet(device->device_info, mode);
 	return_port(port - 1, PROS_SUCCESS);
 }
 
@@ -243,14 +243,14 @@ int32_t motor_set_current_limit(int8_t port, const int32_t limit) {
 int32_t motor_set_encoder_units(int8_t port, const motor_encoder_units_e_t units) {
 	port = abs(port);
 	claim_port_i(port - 1, E_DEVICE_MOTOR);
-	vexDeviceMotorEncoderUnitsSet(device->device_info, (V5MotorEncoderUnits)units);
+	vexDeviceMotorEncoderUnitsSet(device->device_info, units);
 	return_port(port - 1, PROS_SUCCESS);
 }
 
 int32_t motor_set_gearing(int8_t port, const motor_gearset_e_t gearset) {
 	port = abs(port);
 	claim_port_i(port - 1, E_DEVICE_MOTOR);
-	vexDeviceMotorGearingSet(device->device_info, (V5MotorGearset)gearset);
+	vexDeviceMotorGearingSet(device->device_info, gearset);
   return_port(port - 1, PROS_SUCCESS);
 }
 
@@ -272,7 +272,7 @@ motor_brake_mode_e_t motor_get_brake_mode(int8_t port) {
 	port = abs(port);
 	claim_port_i(port - 1, E_DEVICE_MOTOR);
 	V5MotorBrakeMode rtn = vexDeviceMotorBrakeModeGet(device->device_info);
-	return_port(port - 1, (motor_brake_mode_e_t)rtn);
+	return_port(port - 1, rtn);
 }
 
 int32_t motor_get_current_limit(int8_t port) {
@@ -286,14 +286,14 @@ motor_encoder_units_e_t motor_get_encoder_units(int8_t port) {
 	port = abs(port);
 	claim_port_i(port - 1, E_DEVICE_MOTOR);
 	V5MotorEncoderUnits rtn = vexDeviceMotorEncoderUnitsGet(device->device_info);
-	return_port(port - 1, (motor_encoder_units_e_t)rtn);
+	return_port(port - 1, rtn);
 }
 
 motor_gearset_e_t motor_get_gearing(int8_t port) {
 	port = abs(port);
 	claim_port_i(port - 1, E_DEVICE_MOTOR);
 	V5MotorGearset rtn = vexDeviceMotorGearingGet(device->device_info);
-	return_port(port - 1, (motor_gearset_e_t)rtn);
+	return_port(port - 1, rtn);
 }
 
 int32_t motor_is_reversed(int8_t port) {

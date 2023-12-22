@@ -17,8 +17,8 @@ struct _V5_Device {
             V5MotorEncoderUnits encoderUnits;
             V5MotorGearset gearset;
             V5_DeviceMotorPid *pos_pid, *vel_pid;
-            int32_t position[2], position_target, velocity_target, current, current_max, voltage, voltage_max;
-            double velocity, power, torque, efficiency, temperature;
+            int32_t velocity_target, velocity_max, current, current_max, voltage, voltage_max;
+            double position[2], position_target, velocity, power, torque, efficiency, temperature;
             uint32_t faults;
             union {
                 uint8_t flags;
