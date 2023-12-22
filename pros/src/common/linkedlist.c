@@ -20,7 +20,7 @@
 // re-evaluated as a pointer to an area in memory and a false free or add.
 
 ll_node_s_t* linked_list_init_func_node(generic_fn_t func) {
-	ll_node_s_t* node = (ll_node_s_t*)malloc(sizeof *node);
+	ll_node_s_t* node = malloc(sizeof *node);
 	node->payload.func = func;
 	node->next = NULL;
 
@@ -28,7 +28,7 @@ ll_node_s_t* linked_list_init_func_node(generic_fn_t func) {
 }
 
 ll_node_s_t* linked_list_init_data_node(void* data) {
-	ll_node_s_t* node = (ll_node_s_t*)malloc(sizeof *node);
+	ll_node_s_t* node = malloc(sizeof *node);
 	node->payload.data = data;
 	node->next = NULL;
 

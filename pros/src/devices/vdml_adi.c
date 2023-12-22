@@ -75,63 +75,63 @@ int32_t adi_motor_stop(uint8_t port) {
 }
 
 adi_encoder_t adi_encoder_init(uint8_t port_top, uint8_t port_bottom, bool reverse) {
-	return (adi_encoder_t)ext_adi_encoder_init(INTERNAL_ADI_PORT, port_top, port_bottom, reverse);
+	return ext_adi_encoder_init(INTERNAL_ADI_PORT, port_top, port_bottom, reverse);
 }
 
 int32_t adi_encoder_get(adi_encoder_t enc) {
-	return ext_adi_encoder_get((ext_adi_encoder_t)enc);
+	return ext_adi_encoder_get(enc);
 }
 
 int32_t adi_encoder_reset(adi_encoder_t enc) {
-	return ext_adi_encoder_reset((ext_adi_encoder_t)enc);
+	return ext_adi_encoder_reset(enc);
 }
 
 int32_t adi_encoder_shutdown(adi_encoder_t enc) {
-	return ext_adi_encoder_shutdown((ext_adi_encoder_t)enc);
+	return ext_adi_encoder_shutdown(enc);
 }
 
 adi_ultrasonic_t adi_ultrasonic_init(uint8_t port_ping, uint8_t port_echo) {
-	return (adi_ultrasonic_t)ext_adi_ultrasonic_init(INTERNAL_ADI_PORT, port_ping, port_echo);
+	return ext_adi_ultrasonic_init(INTERNAL_ADI_PORT, port_ping, port_echo);
 }
 
 int32_t adi_ultrasonic_get(adi_ultrasonic_t ult) {
-	return ext_adi_ultrasonic_get((ext_adi_ultrasonic_t)ult);
+	return ext_adi_ultrasonic_get(ult);
 }
 
 int32_t adi_ultrasonic_shutdown(adi_ultrasonic_t ult) {
-	return ext_adi_ultrasonic_shutdown((ext_adi_ultrasonic_t)ult);
+	return ext_adi_ultrasonic_shutdown(ult);
 }
 
 adi_gyro_t adi_gyro_init(uint8_t adi_port, double multiplier) {
-	return (adi_gyro_t)ext_adi_gyro_init(INTERNAL_ADI_PORT, adi_port, multiplier);
+	return ext_adi_gyro_init(INTERNAL_ADI_PORT, adi_port, multiplier);
 }
 
 double adi_gyro_get(adi_gyro_t gyro) {
-	return ext_adi_gyro_get((ext_adi_gyro_t)gyro);
+	return ext_adi_gyro_get(gyro);
 }
 
 int32_t adi_gyro_reset(adi_gyro_t gyro) {
-	return ext_adi_gyro_reset((ext_adi_gyro_t)gyro);
+	return ext_adi_gyro_reset(gyro);
 }
 
 int32_t adi_gyro_shutdown(adi_gyro_t gyro) {
-	return ext_adi_gyro_shutdown((ext_adi_gyro_t)gyro);
+	return ext_adi_gyro_shutdown(gyro);
 }
 
 adi_potentiometer_t adi_potentiometer_init(uint8_t port) {
-	return (adi_potentiometer_t)ext_adi_potentiometer_init(INTERNAL_ADI_PORT, port, E_ADI_POT_EDR);
+	return ext_adi_potentiometer_init(INTERNAL_ADI_PORT, port, E_ADI_POT_EDR);
 }
 
 adi_potentiometer_t adi_potentiometer_type_init(uint8_t port, adi_potentiometer_type_e_t potentiometer_type) {
-	return (adi_potentiometer_t)ext_adi_potentiometer_init(INTERNAL_ADI_PORT, port, potentiometer_type);
+	return ext_adi_potentiometer_init(INTERNAL_ADI_PORT, port, potentiometer_type);
 }
 
 double adi_potentiometer_get_angle(adi_potentiometer_t potentiometer) {
-	return ext_adi_potentiometer_get_angle((ext_adi_potentiometer_t)potentiometer);
+	return ext_adi_potentiometer_get_angle(potentiometer);
 }
 
 adi_led_t adi_led_init(uint8_t port) {
-	return (adi_led_t)ext_adi_led_init(INTERNAL_ADI_PORT, port);
+	return ext_adi_led_init(INTERNAL_ADI_PORT, port);
 }
 
 int32_t adi_led_set(adi_led_t led, uint32_t* buffer, uint32_t buffer_length) {
@@ -139,17 +139,17 @@ int32_t adi_led_set(adi_led_t led, uint32_t* buffer, uint32_t buffer_length) {
 }
 
 int32_t adi_led_set_pixel(adi_led_t led, uint32_t* buffer, uint32_t buffer_length, uint32_t color, uint32_t pixel_position) {
-	return ext_adi_led_set_pixel((ext_adi_led_t)led, buffer, buffer_length, color, pixel_position);
+	return ext_adi_led_set_pixel(led, buffer, buffer_length, color, pixel_position);
 }
 
 int32_t adi_led_set_all(adi_led_t led, uint32_t* buffer, uint32_t buffer_length, uint32_t color) {
-	return ext_adi_led_set_all((ext_adi_led_t)led, buffer, buffer_length, color);
+	return ext_adi_led_set_all(led, buffer, buffer_length, color);
 }
 
 int32_t adi_led_clear_all(adi_led_t led, uint32_t* buffer, uint32_t buffer_length) {
-	return ext_adi_led_set_all((ext_adi_led_t)led, buffer, buffer_length, 0);
+	return ext_adi_led_set_all(led, buffer, buffer_length, 0);
 }
 
 int32_t adi_led_clear_pixel(adi_led_t led, uint32_t* buffer, uint32_t buffer_length, uint32_t pixel_position) {
-	return ext_adi_led_set_pixel((ext_adi_led_t)led, buffer, buffer_length, 0, pixel_position);
+	return ext_adi_led_set_pixel(led, buffer, buffer_length, 0, pixel_position);
 }

@@ -32,7 +32,7 @@ bool get_button_pressed(int port, int button) {
 }
 
 void set_button_pressed(int port, int button, bool state) {
-	controller_data_s_t* data = (controller_data_s_t*)registry_get_device_internal(port)->pad;
+	controller_data_s_t* data = registry_get_device_internal(port)->pad;
 	data->button_pressed[button] = state;
 }
 
@@ -131,7 +131,7 @@ int32_t controller_print(controller_id_e_t id, uint8_t line, uint8_t col, const 
 
 	va_list args;
 	va_start(args, fmt);
-	char* buf = (char*)malloc(CONTROLLER_MAX_COLS + 1);
+	char* buf = malloc(CONTROLLER_MAX_COLS + 1);
 	vsnprintf(buf, CONTROLLER_MAX_COLS + 1, fmt, args);
 
 	uint32_t rtn_val = vexControllerTextSet(id, line, col, buf);

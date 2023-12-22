@@ -277,7 +277,7 @@ uint32_t screen_fill_circle(int16_t x, int16_t y, int16_t radius){
 uint32_t screen_print(text_format_e_t txt_fmt, const int16_t line, const char* text, ...){
     va_list args;
     va_start(args, text);
-    if (screen_vprintf((uint8_t)txt_fmt, line, text, args) == PROS_ERR) {
+    if (screen_vprintf(txt_fmt, line, text, args) == PROS_ERR) {
 		return PROS_ERR;
 	}
     va_end(args);
@@ -287,7 +287,7 @@ uint32_t screen_print(text_format_e_t txt_fmt, const int16_t line, const char* t
 uint32_t screen_print_at(text_format_e_t txt_fmt, int16_t x, int16_t y, const char* text, ...){
     va_list args;
     va_start(args, text);
-    if (screen_vprintf_at((uint8_t)txt_fmt, x, y, text, args) == PROS_ERR) {
+    if (screen_vprintf_at(txt_fmt, x, y, text, args) == PROS_ERR) {
 		return PROS_ERR;
 	}
     va_end(args);
@@ -421,13 +421,13 @@ uint32_t screen_touch_callback(touch_event_cb_fn_t cb, last_touch_e_t event_type
 	}
 	switch (event_type) {
 	case E_TOUCH_RELEASED:
-		linked_list_prepend_func(_touch_event_release_handler_list, (generic_fn_t)cb);
+		linked_list_prepend_func(_touch_event_release_handler_list, cb);
 		break;
 	case E_TOUCH_PRESSED:
-		linked_list_prepend_func(_touch_event_press_handler_list, (generic_fn_t)cb);
+		linked_list_prepend_func(_touch_event_press_handler_list, cb);
 		break;
 	case E_TOUCH_HELD:
-		linked_list_prepend_func(_touch_event_press_auto_handler_list, (generic_fn_t)cb);
+		linked_list_prepend_func(_touch_event_press_auto_handler_list, cb);
 		break;
 	case E_TOUCH_ERROR:
 		return PROS_ERR;

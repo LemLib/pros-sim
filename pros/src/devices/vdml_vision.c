@@ -25,7 +25,7 @@ static vision_zero_e_t get_zero_point(uint8_t port) {
 }
 
 static void set_zero_point(uint8_t port, vision_zero_e_t zero_point) {
-	vision_data_s_t* data = (vision_data_s_t*)registry_get_device(port)->pad;
+	vision_data_s_t* data = registry_get_device(port)->pad;
 	data->zero_point = zero_point;
 }
 
@@ -307,7 +307,7 @@ int32_t vision_clear_led(uint8_t port) {
 int32_t vision_set_exposure(uint8_t port, const uint8_t percent) {
 	claim_port_i(port - 1, E_DEVICE_VISION);
 	// This translation comes from VEX to match the brightness represented in vision utility
-	vexDeviceVisionBrightnessSet(device->device_info, (((int)((percent * 100) + 50)) / 255));
+	vexDeviceVisionBrightnessSet(device->device_info, ((percent * 100 + 50) / 255));
 	return_port(port - 1, PROS_SUCCESS);
 }
 

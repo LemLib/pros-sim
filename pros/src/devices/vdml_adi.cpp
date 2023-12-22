@@ -255,23 +255,23 @@ std::int32_t Led::length() {
 }
 
 std::int32_t Led::set_all(uint32_t color) {
-	return ext_adi_led_set_all((adi_led_t)merge_adi_ports(_smart_port, _adi_port), (uint32_t*)_buffer.data(), _buffer.size(), color);
+	return ext_adi_led_set_all((adi_led_t)merge_adi_ports(_smart_port, _adi_port), _buffer.data(), _buffer.size(), color);
 }
 
 std::int32_t Led::set_pixel(uint32_t color, uint32_t pixel_position) {
-	return ext_adi_led_set_pixel((adi_led_t)merge_adi_ports(_smart_port, _adi_port), (uint32_t*)_buffer.data(), _buffer.size(), color, pixel_position);
+	return ext_adi_led_set_pixel((adi_led_t)merge_adi_ports(_smart_port, _adi_port), _buffer.data(), _buffer.size(), color, pixel_position);
 }
 
 std::int32_t Led::clear_all() {
-	return ext_adi_led_clear_all((adi_led_t)merge_adi_ports(_smart_port, _adi_port), (uint32_t*)_buffer.data(), _buffer.size());
+	return ext_adi_led_clear_all((adi_led_t)merge_adi_ports(_smart_port, _adi_port), _buffer.data(), _buffer.size());
 }
 
 std::int32_t Led::clear() {
-	return ext_adi_led_clear_all((adi_led_t)merge_adi_ports(_smart_port, _adi_port), (uint32_t*)_buffer.data(), _buffer.size());
+	return ext_adi_led_clear_all((adi_led_t)merge_adi_ports(_smart_port, _adi_port), _buffer.data(), _buffer.size());
 }
 
 std::int32_t Led::clear_pixel(uint32_t pixel_position) {
-	return ext_adi_led_clear_pixel((adi_led_t)merge_adi_ports(_smart_port, _adi_port), (uint32_t*)_buffer.data(), _buffer.size(), pixel_position);
+	return ext_adi_led_clear_pixel((adi_led_t)merge_adi_ports(_smart_port, _adi_port), _buffer.data(), _buffer.size(), pixel_position);
 }
 
 Pneumatics::Pneumatics(std::uint8_t adi_port, bool start_extended, bool extended_is_low)
