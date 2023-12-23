@@ -33,5 +33,4 @@ void pros_init() {
 
 	graphical_context_daemon_initialize();
 	display_initialize();
-	system_daemon_initialize();
 }
