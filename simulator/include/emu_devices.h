@@ -7,6 +7,7 @@ typedef struct {
 } emu_adi;
 
 struct _V5_Device {
+    int8_t port;
     int8_t exists;
     V5_DeviceType type;
     int32_t timestamp;
