@@ -2,8 +2,6 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL2_gfxPrimitives.h"
 
-#define SCREEN_WIDTH 480
-#define SCREEN_HEIGHT 320
 
 struct {
     SDL_Renderer *renderer;
@@ -46,15 +44,13 @@ bool sim_SDL_setup() {
 
     windowFlags = 0;
 
-    display.window = SDL_CreateWindow("Brain screen", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH,
-                                      SCREEN_HEIGHT, windowFlags);
+    display.window = SDL_CreateWindow("Brain screen", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SYSTEM_DISPLAY_WIDTH,
+                                      SYSTEM_DISPLAY_HEIGHT, windowFlags);
 
     if (!display.window) {
-        printf("Failed to open %d x %d window: %s\n", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_GetError());
+        printf("Failed to open %d x %d window: %s\n", SYSTEM_DISPLAY_WIDTH, SYSTEM_DISPLAY_HEIGHT, SDL_GetError());
         return false;
     }
-
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 
     display.renderer = SDL_CreateRenderer(display.window, -1, rendererFlags);
 
