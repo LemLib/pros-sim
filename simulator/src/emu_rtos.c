@@ -19,14 +19,14 @@ void rtos_initialize() {
 }
 
 uint32_t millis() {
-    struct timespec tp = {};
+    static struct timespec tp = {};
 
     clock_gettime(CLOCK_MONOTONIC, &tp);
     return tp.tv_sec * 1000L + tp.tv_nsec / 1000000L - start_time / 1000;
 }
 
 uint64_t micros() {
-    struct timespec tp = {};
+    static struct timespec tp = {};
 
     clock_gettime(CLOCK_MONOTONIC, &tp);
     return tp.tv_sec * 1000000L + tp.tv_nsec / 1000L - start_time;
@@ -110,7 +110,9 @@ void task_delay(const uint32_t milliseconds) {
     thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
 }
 
-void delay(const uint32_t milliseconds) { task_delay(milliseconds); }
+void delay(const uint32_t milliseconds) {
+    thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
+}
 
 void task_delay_until(uint32_t* const prev_time, const uint32_t delta) {
     const int32_t delay = *prev_time + delta - millis();
