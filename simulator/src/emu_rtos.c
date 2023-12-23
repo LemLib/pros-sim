@@ -1,5 +1,6 @@
 #include "emu_rtos.h"
 #include <signal.h>
+#include <threads.h>
 
 // literally just random magic numbers I pulled out
 #define TASK_MAGIC 314159265
@@ -9,30 +10,26 @@
 #define taskWAITING_NOTIFICATION ((uint8_t)1)
 #define taskNOTIFICATION_RECEIVED ((uint8_t)2)
 
-uint64_t get_start_time() {
-    static int64_t start_time = -1;
-    if (start_time == -1) {
-        struct timespec tp = {};
-        clock_gettime(CLOCK_MONOTONIC, &tp);
-        start_time = tp.tv_sec * 1000000 + tp.tv_nsec / 1000;
-    }
-    return start_time;
-}
+static uint64_t start_time;
 
-void rtos_initialize() { (void)get_start_time(); }
+void rtos_initialize() {
+    struct timespec tp = {};
+    clock_gettime(CLOCK_MONOTONIC, &tp);
+    start_time = tp.tv_sec * 1000000 + tp.tv_nsec / 1000;
+}
 
 uint32_t millis() {
     struct timespec tp = {};
 
     clock_gettime(CLOCK_MONOTONIC, &tp);
-    return tp.tv_sec * 1000L + tp.tv_nsec / 1000000L - get_start_time() / 1000;
+    return tp.tv_sec * 1000L + tp.tv_nsec / 1000000L - start_time / 1000;
 }
 
 uint64_t micros() {
     struct timespec tp = {};
 
     clock_gettime(CLOCK_MONOTONIC, &tp);
-    return tp.tv_sec * 1000000L + tp.tv_nsec / 1000L - get_start_time();
+    return tp.tv_sec * 1000000L + tp.tv_nsec / 1000L - start_time;
 }
 
 void* task_fn_wrapper(void* parameters) {
@@ -43,9 +40,14 @@ void* task_fn_wrapper(void* parameters) {
 }
 
 void sig_func(const int sig) {
+    if ((sig & 0x8) == 0) return;
     task_t_internal* current = task_get_current();
     if (!current) return;
     if (current->magic != TASK_MAGIC) return;
+    if (current->deleted) {
+        printf("What the actual fuck");
+        return;
+    }
     switch (sig) {
         case SIGUSR1:
             signal(SIGUSR1, sig_func);
@@ -104,9 +106,11 @@ void task_delete(task_t task) {
     }
 }
 
-void task_delay(const uint32_t milliseconds) { usleep(milliseconds * 1000); }
+void task_delay(const uint32_t milliseconds) {
+    thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
+}
 
-void delay(const uint32_t milliseconds) { usleep(milliseconds * 1000); }
+void delay(const uint32_t milliseconds) { task_delay(milliseconds); }
 
 void task_delay_until(uint32_t* const prev_time, const uint32_t delta) {
     const int32_t delay = *prev_time + delta - millis();
@@ -198,7 +202,6 @@ uint32_t task_notify_ext(task_t task, uint32_t value, notify_action_e_t action, 
 }
 
 uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
-    uint32_t ulReturn;
     task_t_internal* current = task_get_current();
 
     /* Only block if the notification count is not already non-zero. */
@@ -213,7 +216,7 @@ uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
         }
     }
 
-    ulReturn = current->ulNotifiedValue;
+    uint32_t ulReturn = current->ulNotifiedValue;
 
     if (ulReturn != 0UL) {
         if (clear_on_exit) {
@@ -230,19 +233,16 @@ uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
 
 bool task_notify_clear(task_t task) {
     if (!task) task = task_get_current();
-    int32_t xReturn = 0;
     task_t_internal* internal = task;
 
-    if (internal->magic != TASK_MAGIC || internal->deleted) return 0;
+    if (internal->magic != TASK_MAGIC || internal->deleted) return false;
 
     if (internal->ucNotifyState == taskNOTIFICATION_RECEIVED) {
         internal->ucNotifyState = taskNOT_WAITING_NOTIFICATION;
-        xReturn = 1;
+        return true;
     } else {
-        xReturn = 0;
+        return false;
     }
-
-    return xReturn;
 }
 
 mutex_t mutex_create() {
