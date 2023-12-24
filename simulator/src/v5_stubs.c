@@ -75,13 +75,6 @@ uint32_t vexSystemUsbStatus() {}
 
 uint32_t vexDeviceButtonStateGet() {}
 
-// Controller
-int32_t vexControllerGet(V5_ControllerId id, V5_ControllerIndex index) {}
-
-V5_ControllerStatus vexControllerConnectionStatusGet(V5_ControllerId id) {}
-
-bool vexControllerTextSet(V5_ControllerId id, uint32_t line, uint32_t col, const char *str) {}
-
 // LED sensor
 void vexDeviceLedSet(V5_DeviceT device, V5_DeviceLedColor value) {}
 

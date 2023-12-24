@@ -2,38 +2,39 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL2_gfxPrimitives.h"
 
+#include <emu_devices.h>
 
 struct {
-    SDL_Renderer *renderer;
-    SDL_Window *window;
-    bool init;
+        SDL_Renderer* renderer;
+        SDL_Window* window;
+        bool init;
 
-    union {
-        uint32_t foreground_color;
+        union {
+                uint32_t foreground_color;
 
-        struct __attribute((packed)) {
-            uint8_t fg_b;
-            uint8_t fg_g;
-            uint8_t fg_r;
-            uint8_t fg_a;
+                struct __attribute((packed)) {
+                        uint8_t fg_b;
+                        uint8_t fg_g;
+                        uint8_t fg_r;
+                        uint8_t fg_a;
+                };
         };
-    };
 
-    union {
-        uint32_t background_color;
+        union {
+                uint32_t background_color;
 
-        struct __attribute((packed)) {
-            uint8_t bg_b;
-            uint8_t bg_g;
-            uint8_t bg_r;
-            uint8_t bg_a;
+                struct __attribute((packed)) {
+                        uint8_t bg_b;
+                        uint8_t bg_g;
+                        uint8_t bg_r;
+                        uint8_t bg_a;
+                };
         };
-    };
 } display;
 
 struct {
-    V5_TouchEvent last;
-    uint16_t x, y;
+        V5_TouchEvent last;
+        uint16_t x, y;
 } touch;
 
 bool sim_SDL_setup() {
@@ -44,8 +45,8 @@ bool sim_SDL_setup() {
 
     windowFlags = 0;
 
-    display.window = SDL_CreateWindow("Brain screen", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SYSTEM_DISPLAY_WIDTH,
-                                      SYSTEM_DISPLAY_HEIGHT, windowFlags);
+    display.window = SDL_CreateWindow("Brain screen", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                      SYSTEM_DISPLAY_WIDTH, SYSTEM_DISPLAY_HEIGHT, windowFlags);
 
     if (!display.window) {
         printf("Failed to open %d x %d window: %s\n", SYSTEM_DISPLAY_WIDTH, SYSTEM_DISPLAY_HEIGHT, SDL_GetError());
@@ -73,7 +74,7 @@ void display_background_processing() {
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_WINDOWEVENT:
-                if(e.window.event == SDL_WINDOWEVENT_CLOSE) {
+                if (e.window.event == SDL_WINDOWEVENT_CLOSE) {
                     printf("Window closed!\n");
                     vexSystemExitRequest();
                 }
@@ -105,8 +106,14 @@ void display_background_processing() {
                     touch.last = kTouchEventRelease;
                 }
                 break;
-            default:
+            case SDL_CONTROLLERBUTTONUP:
+            case SDL_CONTROLLERBUTTONDOWN:
+            case SDL_CONTROLLERAXISMOTION:
+            case SDL_CONTROLLERDEVICEADDED:
+            case SDL_CONTROLLERDEVICEREMOVED:
+                handleControllerEvent(&e);
                 break;
+            default: break;
         }
     }
     SDL_RenderPresent(display.renderer);
@@ -131,7 +138,7 @@ void vexDisplayScroll(int32_t nStartLine, int32_t nLines) {}
 
 void vexDisplayScrollRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, int32_t nLines) {}
 
-void vexDisplayCopyRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t *pSrc, int32_t srcStride) {}
+void vexDisplayCopyRect(int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint32_t* pSrc, int32_t srcStride) {}
 
 void vexDisplayPixelSet(uint32_t x, uint32_t y) {
     pixelRGBA(display.renderer, x, y, display.fg_r, display.fg_g, display.fg_b, 255 - display.fg_a);
@@ -173,46 +180,46 @@ void vexDisplayCircleFill(int32_t xc, int32_t yc, int32_t radius) {
     filledCircleRGBA(display.renderer, xc, yc, radius, display.fg_r, display.fg_g, display.fg_b, 255 - display.fg_a);
 }
 
-void vexDisplayPrintf(int32_t xpos, int32_t ypos, uint32_t bOpaque, const char *format, ...) {}
+void vexDisplayPrintf(int32_t xpos, int32_t ypos, uint32_t bOpaque, const char* format, ...) {}
 
-void vexDisplayString(const int32_t nLineNumber, const char *format, ...) {}
+void vexDisplayString(const int32_t nLineNumber, const char* format, ...) {}
 
-void vexDisplayStringAt(int32_t xpos, int32_t ypos, const char *format, ...) {}
+void vexDisplayStringAt(int32_t xpos, int32_t ypos, const char* format, ...) {}
 
-void vexDisplayBigString(const int32_t nLineNumber, const char *format, ...) {}
+void vexDisplayBigString(const int32_t nLineNumber, const char* format, ...) {}
 
-void vexDisplayBigStringAt(int32_t xpos, int32_t ypos, const char *format, ...) {}
+void vexDisplayBigStringAt(int32_t xpos, int32_t ypos, const char* format, ...) {}
 
-void vexDisplaySmallStringAt(int32_t xpos, int32_t ypos, const char *format, ...) {}
+void vexDisplaySmallStringAt(int32_t xpos, int32_t ypos, const char* format, ...) {}
 
-void vexDisplayCenteredString(const int32_t nLineNumber, const char *format, ...) {}
+void vexDisplayCenteredString(const int32_t nLineNumber, const char* format, ...) {}
 
-void vexDisplayBigCenteredString(const int32_t nLineNumber, const char *format, ...) {}
+void vexDisplayBigCenteredString(const int32_t nLineNumber, const char* format, ...) {}
 
 // Not really for user code but we need these for some wrapper functions
-void vexDisplayVPrintf(int32_t xpos, int32_t ypos, uint32_t bOpaque, const char *format, va_list args) {}
+void vexDisplayVPrintf(int32_t xpos, int32_t ypos, uint32_t bOpaque, const char* format, va_list args) {}
 
-void vexDisplayVString(const int32_t nLineNumber, const char *format, va_list args) {}
+void vexDisplayVString(const int32_t nLineNumber, const char* format, va_list args) {}
 
-void vexDisplayVStringAt(int32_t xpos, int32_t ypos, const char *format, va_list args) {}
+void vexDisplayVStringAt(int32_t xpos, int32_t ypos, const char* format, va_list args) {}
 
-void vexDisplayVBigString(const int32_t nLineNumber, const char *format, va_list args) {}
+void vexDisplayVBigString(const int32_t nLineNumber, const char* format, va_list args) {}
 
-void vexDisplayVBigStringAt(int32_t xpos, int32_t ypos, const char *format, va_list args) {}
+void vexDisplayVBigStringAt(int32_t xpos, int32_t ypos, const char* format, va_list args) {}
 
-void vexDisplayVSmallStringAt(int32_t xpos, int32_t ypos, const char *format, va_list args) {}
+void vexDisplayVSmallStringAt(int32_t xpos, int32_t ypos, const char* format, va_list args) {}
 
-void vexDisplayVCenteredString(const int32_t nLineNumber, const char *format, va_list args) {}
+void vexDisplayVCenteredString(const int32_t nLineNumber, const char* format, va_list args) {}
 
-void vexDisplayVBigCenteredString(const int32_t nLineNumber, const char *format, va_list args) {}
+void vexDisplayVBigCenteredString(const int32_t nLineNumber, const char* format, va_list args) {}
 
 void vexDisplayTextSize(uint32_t n, uint32_t d) {}
 
-void vexDisplayFontNamedSet(const char *pFontName) {}
+void vexDisplayFontNamedSet(const char* pFontName) {}
 
-int32_t vexDisplayStringWidthGet(const char *pString) {}
+int32_t vexDisplayStringWidthGet(const char* pString) {}
 
-int32_t vexDisplayStringHeightGet(const char *pString) {}
+int32_t vexDisplayStringHeightGet(const char* pString) {}
 
 bool vexDisplayRender(bool bVsyncWait, bool bRunScheduler) {}
 
@@ -222,13 +229,13 @@ void vexDisplayClipRegionSet(int32_t x1, int32_t y1, int32_t x2, int32_t y2) {}
 
 void vexDisplayClipRegionClear() {}
 
-uint32_t vexImageBmpRead(const uint8_t *ibuf, v5_image *oBuf, uint32_t maxw, uint32_t maxh) {}
+uint32_t vexImageBmpRead(const uint8_t* ibuf, v5_image* oBuf, uint32_t maxw, uint32_t maxh) {}
 
-uint32_t vexImagePngRead(const uint8_t *ibuf, v5_image *oBuf, uint32_t maxw, uint32_t maxh, uint32_t ibuflen) {}
+uint32_t vexImagePngRead(const uint8_t* ibuf, v5_image* oBuf, uint32_t maxw, uint32_t maxh, uint32_t ibuflen) {}
 
 void vexTouchUserCallbackSet(void (*callback)(V5_TouchEvent, int32_t, int32_t)) {}
 
-bool vexTouchDataGet(V5_TouchStatus *status) {
+bool vexTouchDataGet(V5_TouchStatus* status) {
     status->lastEvent = touch.last;
     status->lastXpos = touch.x;
     status->lastYpos = touch.y;

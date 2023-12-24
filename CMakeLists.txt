@@ -98,7 +98,8 @@ add_library(v5_sim_pros STATIC simulator/src/v5_stubs.c
         simulator/src/emu_rtos_cpp.cpp
         simulator/include/emu_rtos.h
         simulator/src/emu_display.c
-        pros/include/system/startup.h)
+        pros/include/system/startup.h
+        simulator/src/emu_controller.c)
 
 target_include_directories(v5_sim_pros PUBLIC simulator/include)
 target_include_directories(v5_sim_pros PUBLIC pros/include)
