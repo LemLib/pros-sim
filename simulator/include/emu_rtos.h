@@ -1,7 +1,11 @@
 #pragma once
+#include <errno.h>
 #include <pthread.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include "pros/rtos.h"
 
 typedef struct {
     void (*func)(void*);

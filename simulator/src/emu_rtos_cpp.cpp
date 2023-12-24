@@ -1,6 +1,5 @@
 #include "emu_rtos.h"
-#include "pros/rtos.h"
-
+#include "pros/rtos.hpp"
 #include <map>
 
 static std::map<const char*, task_t_internal*> tasks;
@@ -13,7 +12,7 @@ extern "C" void task_register(task_t_internal* task) { tasks.emplace(task->name,
 
 extern "C" void task_deregister(task_t_internal* task) { tasks.erase(task->name); }
 
-extern "C" std::uint32_t task_get_count() { return tasks.size(); }
+extern "C" uint32_t task_get_count() { return tasks.size(); }
 
 extern "C" pros::task_t task_get_current() {
     const pthread_t current = pthread_self();

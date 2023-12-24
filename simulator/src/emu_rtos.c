@@ -1,8 +1,8 @@
-#include "emu_rtos.h"
 #include <signal.h>
 #include <threads.h>
+#include "emu_rtos.h"
 
-// literally just random magic numbers I pulled out
+// literally just random numbers I made up
 #define TASK_MAGIC 314159265
 #define MUTEX_MAGIC 415926535
 

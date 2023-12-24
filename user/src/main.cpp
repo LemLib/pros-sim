@@ -1,7 +1,6 @@
 #include "main.h"
 
 #include <map>
-#include "../../simulator/include/emu_rtos.h"
 #define PROS_USE_LITERALS
 using namespace pros::literals;
 
