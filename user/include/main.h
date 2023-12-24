@@ -1,5 +1,4 @@
 #pragma once
-#include "api.h"
 #ifdef __cplusplus
 extern "C" {
 #endif

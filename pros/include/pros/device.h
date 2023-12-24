@@ -21,7 +21,6 @@
 #define _PROS_DEVICE_H_
 
 #include <stdint.h>
-#include <errno.h>
 #ifdef __cplusplus
 namespace pros::c {
 extern "C" {

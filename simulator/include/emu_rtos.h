@@ -1,9 +1,6 @@
 #pragma once
-#include "kapi.h"
 #include <pthread.h>
 #include <stdint.h>
-#include <bits/sigthread.h>
-#include <sys/time.h>
 #include <stdbool.h>
 
 typedef struct {
