@@ -288,8 +288,7 @@ void vexDeviceMotorPositionSet(V5_DeviceT device, double position) {
         errno = ENODEV;
         return;
     }
-    device->motor.position[0] = position;
-    device->motor.position[1] = position; //todo
+    device->motor.position = position;
 }
 
 double vexDeviceMotorPositionGet(V5_DeviceT device) {
@@ -297,7 +296,7 @@ double vexDeviceMotorPositionGet(V5_DeviceT device) {
         errno = ENODEV;
         return PROS_ERR_F;
     }
-    return device->motor.position[0]; // todo
+    return device->motor.position; // todo
 }
 
 int32_t vexDeviceMotorPositionRawGet(V5_DeviceT device, uint32_t* timestamp) {
@@ -306,7 +305,7 @@ int32_t vexDeviceMotorPositionRawGet(V5_DeviceT device, uint32_t* timestamp) {
         return PROS_ERR;
     }
     *timestamp = device->timestamp;
-    return (int32_t) device->motor.position[0];
+    return (int32_t) device->motor.position;
 }
 
 void vexDeviceMotorPositionReset(V5_DeviceT device) {
@@ -314,8 +313,7 @@ void vexDeviceMotorPositionReset(V5_DeviceT device) {
         errno = ENODEV;
         return;
     }
-    device->motor.position[0] = 0;
-    device->motor.position[1] = 0; // todo
+    device->motor.position = 0;
 }
 
 double vexDeviceMotorTargetGet(V5_DeviceT device) {
@@ -349,7 +347,7 @@ void vexDeviceMotorRelativeTargetSet(V5_DeviceT device, double position, int32_t
         errno = ENODEV;
         return;
     }
-    device->motor.position_target = device->motor.position[0] + position; // todo
+    device->motor.position_target = device->motor.position + position; // todo
     device->motor.velocity_max = velocity;
     device->motor.controlMode = kMotorControlModePROFILE;
 }
