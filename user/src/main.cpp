@@ -12,13 +12,11 @@ using namespace pros::literals;
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
-
+ pros::Motor L(2), R(1);
+ pros::Controller master(pros::E_CONTROLLER_MASTER);
  while(true) {
-  auto a = pros::screen::touch_status();
-  if(a.touch_status == pros::E_TOUCH_PRESSED) {
-   pros::screen::set_pen(rand());
-   pros::screen::draw_circle(a.x, a.y, 10);
-  }
+  L.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+  R.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
   pros::Task::delay(10);
  }
 }
@@ -68,4 +66,5 @@ void autonomous() {}
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+
 }
