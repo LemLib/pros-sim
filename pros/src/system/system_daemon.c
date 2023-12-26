@@ -41,9 +41,8 @@ extern void ser_output_flush();
 // does the basic background operations that need to occur every 2ms
 static void do_background_operations() {
 	port_mutex_take_all();
-	// vexBackgroundProcessing();
+	vexBackgroundProcessing();
 	vdml_background_processing();
-	display_background_processing();
 	port_mutex_give_all();
 }
 
@@ -62,7 +61,6 @@ static void _system_daemon_task(void* ign) {
 	port_mutex_take_all();
 	task_delay(2);
 	port_mutex_give_all();
-	sim_SDL_setup(); //todo find out if this is the best spot to put this
 	// start up user initialize task. once the user initialize function completes,
 	// the _initialize_task will notify us and we can go into normal competition
 	// monitoring mode

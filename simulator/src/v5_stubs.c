@@ -8,8 +8,13 @@
 #pragma ide diagnostic ignored "UnusedParameter"
 #pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
 
-void vexBackgroundProcessing() {
+void controllerUpdate();
 
+__attribute((weak)) void engine_update();
+
+void vexBackgroundProcessing() {
+    controllerUpdate();
+    engine_update();
 }
 
 // Console output

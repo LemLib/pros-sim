@@ -37,7 +37,7 @@ struct {
         uint16_t x, y;
 } touch;
 
-bool sim_SDL_setup() {
+bool sim_SDL_init() {
     display.init = false;
     int rendererFlags, windowFlags;
 
@@ -115,7 +115,6 @@ void display_background_processing() {
             default: break;
         }
     }
-    controllerUpdate();
     SDL_RenderPresent(display.renderer);
 }
 

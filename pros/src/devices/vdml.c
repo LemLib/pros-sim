@@ -25,6 +25,7 @@
  * Bitmap to indicate if a port has had an error printed or not.
  */
 int32_t port_errors;
+mutex_t all_port_mutex;
 
 extern void registry_init();
 extern void port_mutex_init();
@@ -57,6 +58,7 @@ mutex_t port_mutexes[V5_MAX_DEVICE_PORTS];            // Mutexes for each port
 void vdml_initialize() {
 	port_mutex_init();
 	registry_init();
+    all_port_mutex = mutex_create();
 }
 
 /**
@@ -112,12 +114,14 @@ int internal_port_mutex_give(uint8_t port) {
 }
 
 void port_mutex_take_all() {
+    mutex_take(all_port_mutex, TIMEOUT_MAX);
 	for (int i = 0; i < V5_MAX_DEVICE_PORTS; i++) {
 		port_mutex_take(i);
 	}
 }
 
 void port_mutex_give_all() {
+    mutex_give(all_port_mutex);
 	for (int i = 0; i < V5_MAX_DEVICE_PORTS; i++) {
 		port_mutex_give(i);
 	}
