@@ -30,28 +30,24 @@ struct {
     int8_t ry;
 } controller;
 
+static int8_t JoystickValue( int16_t value )
+{
+    return (int8_t) ((float) value * ( ( value >= 0 ) ? ( 127.0f / 32767.0f ) : ( 127.0f / 32768.0f ) ));
+}
+
+
+void controllerUpdate() {
+    if(controller.controller == NULL) return;
+    controller.lx = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTX));
+    controller.ly = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTY));
+    controller.rx = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTX));
+    controller.ry = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTY));
+//    printf("%d %d %d %d\n", controller.lx, controller.ly, controller.rx, controller.ry);
+}
 void handleControllerEvent(SDL_Event* e) {
     switch (e->type) {
-        case SDL_CONTROLLERBUTTONUP:
-            break;
-        case SDL_CONTROLLERBUTTONDOWN:
-            break;
-        case SDL_CONTROLLERAXISMOTION:
-            int8_t value = e->caxis.value / -64;
-
-            switch (e->caxis.axis) {
-                case SDL_CONTROLLER_AXIS_LEFTY:
-
-                    controller.ly = value;
-                    printf("%d\n", value);
-                    break;
-                case SDL_CONTROLLER_AXIS_RIGHTY:
-                    controller.ry = value;
-                    printf("%d\n", value);
-                    break;
-            }
-            break;
         case SDL_CONTROLLERDEVICEADDED:
+            SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
         case SDL_CONTROLLERDEVICEREMOVED:
             controller.controller = findController();
             break;
@@ -62,10 +58,52 @@ void handleControllerEvent(SDL_Event* e) {
 // Controller
 int32_t vexControllerGet(V5_ControllerId id, V5_ControllerIndex index) {
     switch (index) {
-        case 1:
+        case AnaLeftY:
             return controller.ly;
-        case 3:
+        case AnaRightY:
             return controller.ry;
+        case AnaLeftX:
+            break;
+        case AnaRightX:
+            break;
+        case AnaSpare1:
+            break;
+        case AnaSpare2:
+            break;
+        case Button5U:
+            break;
+        case Button5D:
+            break;
+        case Button6U:
+            break;
+        case Button6D:
+            break;
+        case Button7U:
+            break;
+        case Button7D:
+            break;
+        case Button7L:
+            break;
+        case Button7R:
+            break;
+        case Button8U:
+            break;
+        case Button8D:
+            break;
+        case Button8L:
+            break;
+        case Button8R:
+            break;
+        case ButtonSEL:
+            break;
+        case BatteryLevel:
+            break;
+        case ButtonAll:
+            break;
+        case Flags:
+            break;
+        case BatteryCapacity:
+            break;
     }
     return 0;
 }

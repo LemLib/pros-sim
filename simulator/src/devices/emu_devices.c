@@ -47,9 +47,9 @@ V5_DeviceT vexDeviceGetByIndex(uint32_t index) {
 int32_t vexDeviceGetStatus(V5_DeviceType *buffer) {
     for(uint8_t i = 0; i < V5_MAX_DEVICE_PORTS; i++) {
         if(!emu_smart_ports[i].exists)
-            buffer[i+1] = kDeviceTypeNoSensor;
+            buffer[i] = kDeviceTypeNoSensor;
         else
-            buffer[i+1] = emu_smart_ports[i].type;
+            buffer[i] = emu_smart_ports[i].type;
     }
     return 0;
 }

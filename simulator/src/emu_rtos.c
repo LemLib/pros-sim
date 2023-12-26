@@ -255,7 +255,9 @@ mutex_t mutex_create() {
         free(mutex);
         return NULL;
     }
+    pthread_mutexattr_settype(&mutex->attr, PTHREAD_MUTEX_RECURSIVE);
     result = pthread_mutex_init(&mutex->mutex, &mutex->attr);
+    pthread_mutex_unlock(&mutex->mutex);
     if (result) {
         errno = result;
         free(mutex);
@@ -282,7 +284,7 @@ bool mutex_take(mutex_t mutex, uint32_t timeout) {
         tp.tv_sec++;
     }
     const int result = pthread_mutex_timedlock(&internal->mutex, &tp);
-    if (!result) return true;
+    if (!result || (result == EOWNERDEAD)) return true;
     errno = result;
     return false;
 }

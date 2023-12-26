@@ -41,7 +41,7 @@ extern void ser_output_flush();
 // does the basic background operations that need to occur every 2ms
 static void do_background_operations() {
 	port_mutex_take_all();
-	vexBackgroundProcessing();
+	// vexBackgroundProcessing();
 	vdml_background_processing();
 	display_background_processing();
 	port_mutex_give_all();

@@ -65,6 +65,8 @@ bool sim_SDL_setup() {
     return true;
 }
 
+void controllerUpdate();
+
 void display_background_processing() {
     bool buttonDown = false;
     static SDL_Event e;
@@ -106,9 +108,6 @@ void display_background_processing() {
                     touch.last = kTouchEventRelease;
                 }
                 break;
-            case SDL_CONTROLLERBUTTONUP:
-            case SDL_CONTROLLERBUTTONDOWN:
-            case SDL_CONTROLLERAXISMOTION:
             case SDL_CONTROLLERDEVICEADDED:
             case SDL_CONTROLLERDEVICEREMOVED:
                 handleControllerEvent(&e);
@@ -116,6 +115,7 @@ void display_background_processing() {
             default: break;
         }
     }
+    controllerUpdate();
     SDL_RenderPresent(display.renderer);
 }
 

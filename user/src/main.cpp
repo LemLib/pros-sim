@@ -12,7 +12,7 @@ using namespace pros::literals;
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
- pros::Motor L(2), R(1);
+ pros::Motor L(-2), R(1);
  pros::Controller master(pros::E_CONTROLLER_MASTER);
  while(true) {
   L.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));

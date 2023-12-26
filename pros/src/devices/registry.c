@@ -22,18 +22,18 @@
 #include "vdml/registry.h"
 #include "vdml/vdml.h"
 
-static v5_smart_device_s_t registry[V5_MAX_DEVICE_PORTS+1];
-static V5_DeviceType registry_types[V5_MAX_DEVICE_PORTS+1];
+static v5_smart_device_s_t registry[V5_MAX_DEVICE_PORTS];
+static V5_DeviceType registry_types[V5_MAX_DEVICE_PORTS];
 
 void registry_init() {
 	int i;
 	kprint("[VDML][INFO]Initializing registry\n");
 	registry_update_types();
-	for (i = 1; i < NUM_V5_PORTS+1; i++) {
+	for (i = 0; i < NUM_V5_PORTS; i++) {
 		registry[i].device_type = (v5_device_e_t)registry_types[i];
-		registry[i].device_info = vexDeviceGetByIndex(i-1);
+		registry[i].device_info = vexDeviceGetByIndex(i);
 		if (registry[i].device_type != E_DEVICE_NONE) {
-			kprintf("[VDML][INFO]Register device in port %d", i + 1);
+			kprintf("[VDML][INFO]Register device in port %d: %d", i + 1, registry_types[i]);
 		}
 	}
 	kprint("[VDML][INFO]Done initializing registry\n");
