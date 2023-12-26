@@ -18,8 +18,6 @@
 #include "v5_api.h"
 
 extern void rtos_initialize();
-extern void vfs_initialize();
-extern void system_daemon_initialize();
 extern void graphical_context_daemon_initialize();
 extern __attribute__((weak)) void display_initialize() {}
 extern void vdml_initialize();

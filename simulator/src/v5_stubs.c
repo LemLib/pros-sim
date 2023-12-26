@@ -10,7 +10,7 @@
 
 void controllerUpdate();
 
-__attribute((weak)) void engine_update();
+void (*engine_update)();
 
 void vexBackgroundProcessing() {
     controllerUpdate();
@@ -419,4 +419,11 @@ double vexBatteryTemperatureGet() {}
 
 double vexBatteryCapacityGet() {}
 
+int32_t vexDeviceAdiAddrLedSet( V5_DeviceT device, uint32_t port, uint32_t *pData, uint32_t nOffset, uint32_t nLength, uint32_t options ) {
+
+}
+
+int32_t vexAdiAddrLedSet( uint32_t index, uint32_t port, uint32_t *pData, uint32_t nOffset, uint32_t nLength, uint32_t options ) {
+
+}
 #pragma clang diagnostic pop
