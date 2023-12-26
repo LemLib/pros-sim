@@ -27,7 +27,7 @@ static task_t competition_task;
 
 static task_t system_daemon_task;
 
-task_fn_t initialize, competition_initialize, disabled, autonomous, opcontrol;
+static task_fn_t initialize, competition_initialize, disabled, autonomous, opcontrol;
 
 enum state_task {
     E_OPCONTROL_TASK = 0, E_AUTON_TASK, E_DISABLED_TASK, E_COMP_INIT_TASK
@@ -117,6 +117,7 @@ _Noreturn static void _system_daemon_task(__attribute((unused)) void * _) {
 void system_daemon_initialize(task_fn_t init, task_fn_t comp_init, task_fn_t disable, task_fn_t auton, task_fn_t op) {
     initialize = init;
     competition_initialize = comp_init;
+    disabled = disable;
     autonomous = auton;
     opcontrol = op;
     system_daemon_task = task_create(_system_daemon_task, NULL, TASK_PRIORITY_MAX - 2, TASK_STACK_DEPTH_DEFAULT,
