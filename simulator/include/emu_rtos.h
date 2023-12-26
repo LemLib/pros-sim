@@ -1,11 +1,18 @@
 #pragma once
 #include <errno.h>
-#include <pthread.h>
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "pros/rtos.h"
+#include "SDL2/SDL_timer.h"
+#ifdef WINNT
+#include <windows.h>
+#else
+#include <pthread.h>
+#include <threads.h>
+#endif
 
 typedef struct {
     void (*func)(void*);
@@ -15,15 +22,14 @@ typedef struct {
 typedef struct {
     uint32_t magic;
     task_fn_args args;
-    pthread_attr_t pthread_attr;
     uint32_t prio;
     uint16_t stack_depth;
-    pthread_t thread;
     const char* name;
     bool suspended;
     bool deleted;
-    pthread_mutexattr_t mutexAttr;
-    pthread_mutex_t suspendMutex;
+    pthread_attr_t pthread_attr;
+    pthread_t thread;
+    void* mutex;
     pthread_condattr_t condAttr;
     pthread_cond_t resumeCond;
     uint32_t ulNotifiedValue;

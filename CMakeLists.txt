@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 23)
 
+set(TARGET "WINDOWS")
+
 project(v5_sim_pros)
-add_library(v5_sim_pros STATIC simulator/src/v5_stubs.c
+add_library(v5_sim_pros SHARED
+        simulator/src/v5_stubs.c
         simulator/src/emu_core.c
         simulator/src/devices/emu_devices.c
         simulator/src/devices/emu_motors.c
@@ -85,33 +88,51 @@ add_library(v5_sim_pros STATIC simulator/src/v5_stubs.c
         pros/src/system/startup.c
         pros/src/system/system_daemon.c
         pros/src/common/gid.c
-        pros/src/common/linkedlist.c
-        pros/src/common/set.c
-        pros/src/common/string.c
         pros/include/common/cobs.h
         pros/include/common/gid.h
-        pros/include/common/linkedlist.h
-        pros/include/common/set.h
-        pros/include/common/string.h
         pros/include/system/dev/banners.h
         simulator/src/emu_rtos.c
         simulator/src/emu_rtos_cpp.cpp
         simulator/include/emu_rtos.h
         simulator/src/emu_display.c
         pros/include/system/startup.h
-        simulator/src/emu_controller.c)
+        simulator/src/emu_controller.c
+        simulator/src/emu_display_cpp.cpp
+        simulator/src/devices/emu_rotation.c)
 
 target_include_directories(v5_sim_pros PUBLIC simulator/include)
 target_include_directories(v5_sim_pros PUBLIC pros/include)
 target_include_directories(v5_sim_pros PUBLIC user/include)
 
 project(v5_sim_user)
+
 add_library(v5_sim_user SHARED user/src/main.cpp
         user/include/api.h user/include/main.h)
+
+add_dependencies(v5_sim_user v5_sim_pros)
+
+if(${TARGET} STREQUAL "WINDOWS")
+    # the name of the target operating system
+    set(CMAKE_SYSTEM_NAME Windows)
+    set(CMAKE_SYSTEM_VERSION Windows)
+
+    project(SDL2_gfx)
+    add_library(SDL2_gfx STATIC windows/SDL2/SDL2_framerate.c windows/SDL2/SDL2_gfxPrimitives.c windows/SDL2/SDL2_imageFilter.c windows/SDL2/SDL2_rotozoom.c)
+    add_dependencies(v5_sim_user SDL2_gfx)
+    target_link_libraries(v5_sim_pros PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/windows/SDL2.dll" "${CMAKE_CURRENT_SOURCE_DIR}/windows/libSDL2_image.a" SDL2_gfx)
+    target_link_libraries(v5_sim_user PUBLIC v5_sim_pros)
+
+    include_directories(windows)
+    include_directories(windows/SDL2)
+else()
+    target_link_libraries(v5_sim_pros PUBLIC SDL2 SDL2_gfx SDL2_image)
+    target_link_libraries(v5_sim_user PUBLIC v5_sim_pros)
+endif()
+
 target_include_directories(v5_sim_user PUBLIC user/include)
 target_include_directories(v5_sim_user PUBLIC user/pros/include)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O2")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2")
 add_link_options(v5_sim_user -fPIC)
-target_link_libraries(v5_sim_user PUBLIC v5_sim_pros SDL2 SDL2_gfx SDL2_ttf)
+

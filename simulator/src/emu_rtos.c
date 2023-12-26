@@ -1,5 +1,5 @@
 #include <signal.h>
-#include <threads.h>
+
 #include "emu_rtos.h"
 
 // literally just random numbers I made up
@@ -10,30 +10,32 @@
 #define taskWAITING_NOTIFICATION ((uint8_t)1)
 #define taskNOTIFICATION_RECEIVED ((uint8_t)2)
 
-static uint64_t start_time;
+//static uint64_t start_time;
 
 void rtos_initialize() {
-    struct timespec tp = {};
-    clock_gettime(CLOCK_MONOTONIC, &tp);
-    start_time = tp.tv_sec * 1000000 + tp.tv_nsec / 1000;
+//    struct timespec tp = {};
+//    clock_gettime(CLOCK_MONOTONIC, &tp);
+//    start_time = tp.tv_sec * 1000000 + tp.tv_nsec / 1000;
 }
 
 uint32_t millis() {
-    static struct timespec tp = {};
-
-    clock_gettime(CLOCK_MONOTONIC, &tp);
-    return tp.tv_sec * 1000L + tp.tv_nsec / 1000000L - start_time / 1000;
+    return SDL_GetTicks();
+//    static struct timespec tp = {};
+//    SDL_GetTicks64();
+//    clock_gettime(CLOCK_MONOTONIC, &tp);
+//    return tp.tv_sec * 1000L + tp.tv_nsec / 1000000L - start_time / 1000;
 }
 
 uint64_t micros() {
-    static struct timespec tp = {};
-
-    clock_gettime(CLOCK_MONOTONIC, &tp);
-    return tp.tv_sec * 1000000L + tp.tv_nsec / 1000L - start_time;
+    return SDL_GetTicks() * 1000;
+//    static struct timespec tp = {};
+//
+//    clock_gettime(CLOCK_MONOTONIC, &tp);
+//    return tp.tv_sec * 1000000L + tp.tv_nsec / 1000L - start_time;
 }
 
-void* task_fn_wrapper(void* parameters) {
-    task_fn_args* args = parameters;
+void *task_fn_wrapper(void *parameters) {
+    task_fn_args *args = parameters;
 
     args->func(args->parameters);
     return 0;
@@ -41,7 +43,7 @@ void* task_fn_wrapper(void* parameters) {
 
 void sig_func(const int sig) {
     if ((sig & 0x8) == 0) return;
-    task_t_internal* current = task_get_current();
+    task_t_internal *current = task_get_current();
     if (!current) return;
     if (current->magic != TASK_MAGIC) return;
     if (current->deleted) {
@@ -51,25 +53,26 @@ void sig_func(const int sig) {
     switch (sig) {
         case SIGUSR1:
             signal(SIGUSR1, sig_func);
-            pthread_mutex_lock(&current->suspendMutex);
+            mutex_take(current->mutex, TIMEOUT_MAX);
             current->suspended = true;
-            pthread_cond_wait(&current->resumeCond, &current->suspendMutex);
-            pthread_mutex_unlock(&current->suspendMutex);
+            pthread_cond_wait(&current->resumeCond, &((mutex_t_internal *)current->mutex)->mutex);
+            mutex_give(current->mutex);
             break;
         case SIGUSR2:
             signal(SIGUSR2, sig_func);
-            pthread_mutex_lock(&current->suspendMutex);
+            mutex_take(current->mutex, TIMEOUT_MAX);
             current->suspended = false;
             pthread_cond_signal(&current->resumeCond);
-            pthread_mutex_unlock(&current->suspendMutex);
+            mutex_give(current->mutex);
             break;
-        default: break;
+        default:
+            break;
     }
 }
 
-task_t task_create(task_fn_t function, void* const parameters, uint32_t prio, const uint16_t stack_depth,
-                   const char* const name) {
-    task_t_internal* task = malloc(sizeof(task_t_internal));
+task_t task_create(task_fn_t function, void *const parameters, uint32_t prio, const uint16_t stack_depth,
+                   const char *const name) {
+    task_t_internal *task = malloc(sizeof(task_t_internal));
     task->prio = prio;
     task->stack_depth = stack_depth;
     task->args.func = function;
@@ -78,6 +81,11 @@ task_t task_create(task_fn_t function, void* const parameters, uint32_t prio, co
     task->suspended = false;
     task->deleted = false;
     task->magic = TASK_MAGIC;
+    task->mutex = mutex_create();
+    if(task->mutex == NULL) {
+        free(task);
+        return NULL;
+    }
     int result = pthread_attr_init(&task->pthread_attr);
     if (result) {
         free(task);
@@ -97,8 +105,9 @@ task_t task_create(task_fn_t function, void* const parameters, uint32_t prio, co
 }
 
 void task_delete(task_t task) {
-    if (!task) pthread_exit(0);
-    task_t_internal* internal = task;
+    if (!task)
+        pthread_exit(0);
+    task_t_internal *internal = task;
     if (internal->magic == TASK_MAGIC && !internal->deleted) {
         pthread_cancel(internal->thread);
         internal->deleted = true;
@@ -107,15 +116,17 @@ void task_delete(task_t task) {
 }
 
 void task_delay(const uint32_t milliseconds) {
-    thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
+    SDL_Delay(milliseconds);
+    // thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
 }
 
 void delay(const uint32_t milliseconds) {
-    thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
+    SDL_Delay(milliseconds);
+    // thrd_sleep(&(struct timespec) {.tv_sec = milliseconds / 1000, .tv_nsec = (milliseconds % 1000) * 1000000}, NULL);
 }
 
-void task_delay_until(uint32_t* const prev_time, const uint32_t delta) {
-    const int32_t delay = *prev_time + delta - millis();
+void task_delay_until(uint32_t *const prev_time, const uint32_t delta) {
+    const int32_t delay = (int32_t) ((uint32_t) (*prev_time + delta) - millis());
     if (delay < 1) return;
     task_delay(delay);
     *prev_time = millis();
@@ -123,20 +134,20 @@ void task_delay_until(uint32_t* const prev_time, const uint32_t delta) {
 
 uint32_t task_get_priority(task_t task) {
     if (!task) return -1;
-    const task_t_internal* internal = task;
+    const task_t_internal *internal = task;
     if (internal->magic == TASK_MAGIC && !internal->deleted) { return internal->prio; }
     return -1;
 }
 
 void task_set_priority(task_t task, uint32_t prio) {
     if (!task) return;
-    task_t_internal* internal = task;
+    task_t_internal *internal = task;
     if (internal->magic == TASK_MAGIC && !internal->deleted) { internal->prio = prio; }
 }
 
 task_state_e_t task_get_state(task_t task) {
     if (!task) return E_TASK_STATE_INVALID;
-    const task_t_internal* internal = task;
+    const task_t_internal *internal = task;
     if (internal->magic == TASK_MAGIC) {
         if (internal->deleted) return E_TASK_STATE_DELETED;
         if (internal->suspended) return E_TASK_STATE_SUSPENDED;
@@ -147,20 +158,22 @@ task_state_e_t task_get_state(task_t task) {
 
 void task_suspend(task_t task) {
     if (!task) return;
-    const task_t_internal* internal = task;
-    if (internal->magic == TASK_MAGIC && !internal->deleted) pthread_kill(internal->thread, SIGUSR1);
+    const task_t_internal *internal = task;
+    if (internal->magic == TASK_MAGIC && !internal->deleted)
+        pthread_kill(internal->thread, SIGUSR1);
 }
 
 void task_resume(task_t task) {
     if (!task) return;
-    const task_t_internal* internal = task;
-    if (internal->magic == TASK_MAGIC && !internal->deleted) pthread_kill(internal->thread, SIGUSR2);
+    const task_t_internal *internal = task;
+    if (internal->magic == TASK_MAGIC && !internal->deleted)
+        pthread_kill(internal->thread, SIGUSR2);
 }
 
-char* task_get_name(task_t task) {
+char *task_get_name(task_t task) {
     if (!task) return NULL;
-    const task_t_internal* internal = task;
-    if (internal->magic == TASK_MAGIC && !internal->deleted) { return (char*)internal->name; }
+    const task_t_internal *internal = task;
+    if (internal->magic == TASK_MAGIC && !internal->deleted) { return (char *) internal->name; }
     return NULL;
 }
 
@@ -168,23 +181,31 @@ uint32_t task_notify(task_t task) { return task_notify_ext(task, 0, E_NOTIFY_ACT
 
 void task_join(task_t task) {
     if (!task) return;
-    const task_t_internal* internal = task;
-    if (internal->magic == TASK_MAGIC && !internal->deleted) { pthread_join(internal->thread, NULL); }
+    const task_t_internal *internal = task;
+    if (internal->magic == TASK_MAGIC && !internal->deleted) {
+        pthread_join(internal->thread, NULL);
+    }
 }
 
-uint32_t task_notify_ext(task_t task, uint32_t value, notify_action_e_t action, uint32_t* prev_value) {
+uint32_t task_notify_ext(task_t task, uint32_t value, notify_action_e_t action, uint32_t *prev_value) {
     if (!task) return 0;
     int32_t xReturn = 0;
-    task_t_internal* internal = task;
+    task_t_internal *internal = task;
     if (internal->magic != TASK_MAGIC || internal->deleted) return 0;
     uint8_t ucOriginalNotifyState = internal->ucNotifyState;
     internal->ucNotifyState = taskNOTIFICATION_RECEIVED;
     switch (action) {
-        case E_NOTIFY_ACTION_BITS: internal->ulNotifiedValue |= value; break;
+        case E_NOTIFY_ACTION_BITS:
+            internal->ulNotifiedValue |= value;
+            break;
 
-        case E_NOTIFY_ACTION_INCR: internal->ulNotifiedValue++; break;
+        case E_NOTIFY_ACTION_INCR:
+            internal->ulNotifiedValue++;
+            break;
 
-        case E_NOTIFY_ACTION_OWRITE: internal->ulNotifiedValue = value; break;
+        case E_NOTIFY_ACTION_OWRITE:
+            internal->ulNotifiedValue = value;
+            break;
 
         case E_NOTIFY_ACTION_NO_OWRITE:
             if (ucOriginalNotifyState != taskNOTIFICATION_RECEIVED) {
@@ -204,7 +225,7 @@ uint32_t task_notify_ext(task_t task, uint32_t value, notify_action_e_t action, 
 }
 
 uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
-    task_t_internal* current = task_get_current();
+    task_t_internal *current = task_get_current();
 
     /* Only block if the notification count is not already non-zero. */
     if (current->ulNotifiedValue == 0UL) {
@@ -224,7 +245,7 @@ uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
         if (clear_on_exit) {
             current->ulNotifiedValue = 0UL;
         } else {
-            current->ulNotifiedValue = ulReturn - (uint32_t)1;
+            current->ulNotifiedValue = ulReturn - (uint32_t) 1;
         }
     }
 
@@ -235,7 +256,7 @@ uint32_t task_notify_take(bool clear_on_exit, uint32_t timeout) {
 
 bool task_notify_clear(task_t task) {
     if (!task) task = task_get_current();
-    task_t_internal* internal = task;
+    task_t_internal *internal = task;
 
     if (internal->magic != TASK_MAGIC || internal->deleted) return false;
 
@@ -248,7 +269,7 @@ bool task_notify_clear(task_t task) {
 }
 
 mutex_t mutex_create() {
-    mutex_t_internal* mutex = malloc(sizeof(mutex_t_internal));
+    mutex_t_internal *mutex = malloc(sizeof(mutex_t_internal));
     int result = pthread_mutexattr_init(&mutex->attr);
     if (result) {
         errno = result;
@@ -269,7 +290,7 @@ mutex_t mutex_create() {
 }
 
 bool mutex_take(mutex_t mutex, uint32_t timeout) {
-    mutex_t_internal* internal = mutex;
+    mutex_t_internal *internal = mutex;
     if (internal->magic != MUTEX_MAGIC || internal->deleted) {
         errno = ENXIO;
         return false;
@@ -290,7 +311,7 @@ bool mutex_take(mutex_t mutex, uint32_t timeout) {
 }
 
 bool mutex_give(mutex_t mutex) {
-    mutex_t_internal* internal = mutex;
+    mutex_t_internal *internal = mutex;
     if (internal->magic != MUTEX_MAGIC || internal->deleted) {
         errno = ENXIO;
         return false;
@@ -302,7 +323,9 @@ bool mutex_give(mutex_t mutex) {
 }
 
 void mutex_delete(mutex_t mutex) {
-    mutex_t_internal* internal = mutex;
+    mutex_take(mutex, TIMEOUT_MAX);
+    mutex_give(mutex);
+    mutex_t_internal *internal = mutex;
     if (internal->magic != MUTEX_MAGIC || internal->deleted) {
         errno = ENXIO;
         return;

@@ -1,6 +1,7 @@
 #include "main.h"
 
 #include <map>
+
 #define PROS_USE_LITERALS
 using namespace pros::literals;
 
@@ -12,13 +13,16 @@ using namespace pros::literals;
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
- pros::Motor L(-2), R(1);
- pros::Controller master(pros::E_CONTROLLER_MASTER);
- while(true) {
-  L.move(master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-  R.move(master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
-  pros::Task::delay(10);
- }
+    pros::Motor L(-2), R(1);
+    pros::Controller master(pros::E_CONTROLLER_MASTER);
+    int8_t x = 0, y = 0;
+    while (true) {
+        x = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X);
+        y = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y);
+        L.move(y + x);
+        R.move(y - x);
+        pros::Task::delay(10);
+    }
 }
 
 /**

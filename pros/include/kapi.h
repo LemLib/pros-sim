@@ -38,7 +38,7 @@ extern "C" {
 #define warn_printf(fmt, ...) dprintf(STDERR_FILENO, "%s:%d -- " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #define warn_wprint(str) wprintf("%s", str)
 
-#define kprintf(fmt, ...) dprintf(STDOUT_FILENO, "%s:%d -- " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define kprintf(fmt, ...) printf("%s:%d -- " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #define kprint(str) kprintf("%s", str)
 
 #ifndef PROS_RELEASING

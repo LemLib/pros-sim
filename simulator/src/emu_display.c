@@ -2,6 +2,8 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL2_gfxPrimitives.h"
 
+#include "stdio.h"
+
 #include <emu_devices.h>
 
 struct {
@@ -65,7 +67,7 @@ bool sim_SDL_init() {
     return true;
 }
 
-void controllerUpdate();
+void handleControllerEvent(SDL_Event* e);
 
 void display_background_processing() {
     bool buttonDown = false;

@@ -38,11 +38,11 @@ static int8_t JoystickValue( int16_t value )
 
 void controllerUpdate() {
     if(controller.controller == NULL) return;
-    controller.lx = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTX));
+    controller.lx = (int8_t) JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTX));
     controller.ly = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTY));
-    controller.rx = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTX));
+    controller.rx = (int8_t) JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTX));
     controller.ry = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTY));
-//    printf("%d %d %d %d\n", controller.lx, controller.ly, controller.rx, controller.ry);
+    //printf("%d %d %d %d\n", controller.lx, controller.ly, controller.rx, controller.ry);
 }
 void handleControllerEvent(SDL_Event* e) {
     switch (e->type) {
@@ -63,9 +63,9 @@ int32_t vexControllerGet(V5_ControllerId id, V5_ControllerIndex index) {
         case AnaRightY:
             return controller.ry;
         case AnaLeftX:
-            break;
+            return controller.lx;
         case AnaRightX:
-            break;
+            return controller.rx;
         case AnaSpare1:
             break;
         case AnaSpare2:

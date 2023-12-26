@@ -107,7 +107,9 @@ int32_t controller_set_text(controller_id_e_t id, uint8_t line, uint8_t col, con
 	else
 		col++;
 
-	char* buf = strndup(str, CONTROLLER_MAX_COLS + 1);
+    size_t len = strlen(str);
+
+	char* buf = strncpy(malloc(len), str, len > (CONTROLLER_MAX_COLS + 1) ? (CONTROLLER_MAX_COLS + 1) : len);
 
 	uint32_t rtn_val = vexControllerTextSet(id, line, col, buf);
 	free(buf);
