@@ -111,7 +111,7 @@ add_library(v5_sim_user SHARED user/src/main.cpp
 target_include_directories(v5_sim_user PUBLIC user/include)
 target_include_directories(v5_sim_user PUBLIC user/pros/include)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O2")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2")
 add_link_options(v5_sim_user -fPIC)
 target_link_libraries(v5_sim_user PUBLIC v5_sim_pros SDL2 SDL2_gfx SDL2_ttf)
