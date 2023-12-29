@@ -48,8 +48,13 @@ void handleControllerEvent(SDL_Event* e) {
     switch (e->type) {
         case SDL_CONTROLLERDEVICEADDED:
             SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
-        case SDL_CONTROLLERDEVICEREMOVED:
             controller.controller = findController();
+            puts("Controller connected\n");
+            break;
+        case SDL_CONTROLLERDEVICEREMOVED:
+            SDL_GameControllerClose(controller.controller);
+            controller.controller = NULL;
+            puts("Controller disconnected\n");
             break;
         default: break;
     }
