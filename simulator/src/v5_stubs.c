@@ -155,29 +155,6 @@ void vexDeviceVisionWifiModeSet(V5_DeviceT device, V5VisionWifiMode mode) {}
 
 V5VisionWifiMode vexDeviceVisionWifiModeGet(V5_DeviceT device) {}
 
-// IMU
-void vexDeviceImuReset(V5_DeviceT device) {}
-
-double vexDeviceImuHeadingGet(V5_DeviceT device) {}
-
-double vexDeviceImuDegreesGet(V5_DeviceT device) {}
-
-void vexDeviceImuQuaternionGet(V5_DeviceT device, V5_DeviceImuQuaternion *data) {}
-
-void vexDeviceImuAttitudeGet(V5_DeviceT device, V5_DeviceImuAttitude *data) {}
-
-void vexDeviceImuRawGyroGet(V5_DeviceT device, V5_DeviceImuRaw *data) {}
-
-void vexDeviceImuRawAccelGet(V5_DeviceT device, V5_DeviceImuRaw *data) {}
-
-uint32_t vexDeviceImuStatusGet(V5_DeviceT device) {}
-
-void vexDeviceImuModeSet(V5_DeviceT device, uint32_t mode) {}
-
-uint32_t vexDeviceImuModeGet(V5_DeviceT device) {}
-
-void vexDeviceImuDataRateSet(V5_DeviceT device, uint32_t rate) {}
-
 // Rangefinder/Lidar - actual API to be determined
 int32_t vexDeviceRangeValueGet(V5_DeviceT device) {}
 

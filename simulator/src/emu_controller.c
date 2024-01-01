@@ -1,4 +1,5 @@
 #include "v5_api.h"
+#include "stdio.h"
 #include "SDL2/SDL.h"
 
 
@@ -28,7 +29,7 @@ struct {
     int8_t rx;
     int8_t ly;
     int8_t ry;
-} controller;
+} _controller_info;
 
 static int8_t JoystickValue( int16_t value )
 {
@@ -37,23 +38,23 @@ static int8_t JoystickValue( int16_t value )
 
 
 void controllerUpdate() {
-    if(controller.controller == NULL) return;
-    controller.lx = (int8_t) JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTX));
-    controller.ly = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_LEFTY));
-    controller.rx = (int8_t) JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTX));
-    controller.ry = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(controller.controller, SDL_CONTROLLER_AXIS_RIGHTY));
+    if(_controller_info.controller == NULL) return;
+    _controller_info.lx = (int8_t) JoystickValue(SDL_GameControllerGetAxis(_controller_info.controller, SDL_CONTROLLER_AXIS_LEFTX));
+    _controller_info.ly = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(_controller_info.controller, SDL_CONTROLLER_AXIS_LEFTY));
+    _controller_info.rx = (int8_t) JoystickValue(SDL_GameControllerGetAxis(_controller_info.controller, SDL_CONTROLLER_AXIS_RIGHTX));
+    _controller_info.ry = (int8_t) -JoystickValue(SDL_GameControllerGetAxis(_controller_info.controller, SDL_CONTROLLER_AXIS_RIGHTY));
     //printf("%d %d %d %d\n", controller.lx, controller.ly, controller.rx, controller.ry);
 }
 void handleControllerEvent(SDL_Event* e) {
     switch (e->type) {
         case SDL_CONTROLLERDEVICEADDED:
             SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
-            controller.controller = findController();
+            _controller_info.controller = findController();
             puts("Controller connected\n");
             break;
         case SDL_CONTROLLERDEVICEREMOVED:
-            SDL_GameControllerClose(controller.controller);
-            controller.controller = NULL;
+            SDL_GameControllerClose(_controller_info.controller);
+            _controller_info.controller = NULL;
             puts("Controller disconnected\n");
             break;
         default: break;
@@ -64,13 +65,13 @@ void handleControllerEvent(SDL_Event* e) {
 int32_t vexControllerGet(V5_ControllerId id, V5_ControllerIndex index) {
     switch (index) {
         case AnaLeftY:
-            return controller.ly;
+            return _controller_info.ly;
         case AnaRightY:
-            return controller.ry;
+            return _controller_info.ry;
         case AnaLeftX:
-            return controller.lx;
+            return _controller_info.lx;
         case AnaRightX:
-            return controller.rx;
+            return _controller_info.rx;
         case AnaSpare1:
             break;
         case AnaSpare2:

@@ -52,17 +52,20 @@ extern "C" [[noreturn]] void _touch_handle_task(void*) {
             switch (current.lastEvent) {
                 case kTouchEventRelease:
                     for(auto fun : touch_event_release_handler_list) {
-                        fun();
+                        if(fun)
+                            fun();
                     }
                     break;
                 case kTouchEventPress:
                     for(auto fun : touch_event_press_handler_list) {
-                        fun();
+                        if(fun)
+                            fun();
                     }
                     break;
                 case kTouchEventPressAuto:
                     for(auto fun : touch_event_press_auto_handler_list) {
-                        fun();
+                        if(fun)
+                            fun();
                     }
                     break;
             }

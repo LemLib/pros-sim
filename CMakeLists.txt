@@ -1,10 +1,10 @@
 cmake_minimum_required(VERSION 3.22)
 set(CMAKE_CXX_STANDARD 23)
 
-set(TARGET "WINDOWS")
+set(TARGET "LINUX")
 
 project(v5_sim_pros)
-add_library(v5_sim_pros SHARED
+add_library(v5_sim_pros STATIC
         simulator/src/v5_stubs.c
         simulator/src/emu_core.c
         simulator/src/devices/emu_devices.c
@@ -61,8 +61,6 @@ add_library(v5_sim_pros SHARED
         pros/include/pros/imu.hpp
         pros/include/pros/link.h
         pros/include/pros/link.hpp
-        pros/include/pros/llemu.h
-        pros/include/pros/llemu.hpp
         pros/include/pros/misc.h
         pros/include/pros/misc.hpp
         pros/include/pros/motor_group.hpp
@@ -98,7 +96,8 @@ add_library(v5_sim_pros SHARED
         pros/include/system/startup.h
         simulator/src/emu_controller.c
         simulator/src/emu_display_cpp.cpp
-        simulator/src/devices/emu_rotation.c)
+        simulator/src/devices/emu_rotation.c
+        simulator/src/devices/emu_imu.c)
 
 target_include_directories(v5_sim_pros PUBLIC simulator/include)
 target_include_directories(v5_sim_pros PUBLIC pros/include)
@@ -106,8 +105,9 @@ target_include_directories(v5_sim_pros PUBLIC user/include)
 
 project(v5_sim_user)
 
-add_library(v5_sim_user SHARED user/src/main.cpp
-        user/include/api.h user/include/main.h)
+add_library(v5_sim_user STATIC user/src/main.cpp
+        user/include/api.h user/include/main.h
+        )
 
 add_dependencies(v5_sim_user v5_sim_pros)
 
@@ -132,7 +132,7 @@ endif()
 target_include_directories(v5_sim_user PUBLIC user/include)
 target_include_directories(v5_sim_user PUBLIC user/pros/include)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -O2")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -O2")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Og")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -Og")
 add_link_options(v5_sim_user -fPIC)
 

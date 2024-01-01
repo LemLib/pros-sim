@@ -40,6 +40,7 @@ struct _V5_Device {
                         V5ImuOrientationMode orientationMode;
                         V5_DeviceImuRaw rotation;
                         V5_DeviceImuRaw acceleration;
+                        uint32_t reset_timestamp;
                 } imu;
 
                 struct {

@@ -2,22 +2,34 @@
 #include "pros/rtos.hpp"
 #include <map>
 
-static std::map<const char *, task_t_internal *> tasks;
+static std::vector<task_t_internal *> tasks;
 
-bool task_exists(const char *name) { return tasks.contains(name); }
+bool task_exists(const char *name) {
+    return std::any_of(tasks.begin(), tasks.end(), [name](task_t_internal *task) -> bool {
+        return (strcmp(name, task->name) == 0);
+    });
+}
 
-extern "C" pros::task_t task_get_by_name(const char *name) { return tasks[name]; }
 
-extern "C" void task_register(task_t_internal *task) { tasks.emplace(task->name, task); }
+extern "C" pros::task_t task_get_by_name(const char *name) {
+    auto it = std::find_if(tasks.begin(), tasks.end(), [name](task_t_internal *task) -> bool {
+        return (strcmp(name, task->name) == 0);
+    });
+    return it.base();
+}
 
-extern "C" void task_deregister(task_t_internal *task) { tasks.erase(task->name); }
+extern "C" void task_register(task_t_internal *task) {
+    tasks.emplace_back(task);
+}
+
+extern "C" void task_deregister(task_t_internal *task) { (void) std::remove(tasks.begin(), tasks.end(), task); }
 
 extern "C" uint32_t task_get_count() { return tasks.size(); }
 
 extern "C" pros::task_t task_get_current() {
     const pthread_t current = pthread_self();
-    for (const auto map = tasks; const auto [_, snd]: map) {
-        if (pthread_equal(snd->thread, current)) { return snd; }
+    for (const auto task: tasks) {
+        if (pthread_equal(task->thread, current)) { return task; }
     }
     return nullptr;
 }
