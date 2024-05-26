@@ -1,5 +1,7 @@
 # V5-Sim-PROS
 
+This project is now archived. If you are looking for a related project,look [here](https://github.com/vexide/vex-v5-sim).
+
 Welcome to the Lemlib VEX V5 Simulator! This open-source project aims to accurately simulate the full functionality of the V5 brain and PROS kernel. 
 
 This repository includes the base device emulation layer and a modified version of PROS Kernel, and is what users of V5-Sim will build their code against.
